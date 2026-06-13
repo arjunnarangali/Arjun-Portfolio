@@ -25,10 +25,10 @@ type NativeButtonProps = SharedButtonProps &
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    "bg-accent text-slate-950 shadow-lg shadow-accent/20 hover:bg-accent/90 focus-visible:ring-accent/70",
+    "border border-accent bg-accent text-background hover:bg-transparent hover:text-accent focus-visible:ring-accent/70",
   secondary:
-    "border border-border/80 bg-card/70 text-foreground hover:border-accent/30 hover:bg-card focus-visible:ring-accent/50",
-  ghost: "bg-transparent text-foreground hover:bg-white/5 focus-visible:ring-accent/40",
+    "border border-border bg-card text-foreground hover:border-accent hover:text-accent focus-visible:ring-accent/50",
+  ghost: "border border-transparent bg-transparent text-foreground hover:border-border hover:text-accent focus-visible:ring-accent/40",
 }
 
 const sizeClasses: Record<ButtonSize, string> = {
@@ -39,7 +39,7 @@ const sizeClasses: Record<ButtonSize, string> = {
 
 function buttonClasses(variant: ButtonVariant, size: ButtonSize) {
   return cn(
-    "ring-focus inline-flex items-center justify-center gap-2 rounded-full font-medium transition-all duration-200",
+    "ring-focus inline-flex items-center justify-center gap-2 rounded-md font-medium uppercase tracking-[0.18em] transition-all duration-200",
     variantClasses[variant],
     sizeClasses[size],
   )

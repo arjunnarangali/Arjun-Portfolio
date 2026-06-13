@@ -9,7 +9,7 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={toggleTheme}
-      className="ring-focus inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/70 bg-card/60 text-foreground transition hover:border-accent/30 hover:text-accent"
+      className="ring-focus inline-flex h-11 w-11 items-center justify-center rounded-md border border-border bg-card text-foreground transition hover:border-accent hover:text-accent"
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
     >
       {isDark ? <HiSun className="h-5 w-5" /> : <HiMoon className="h-5 w-5" />}

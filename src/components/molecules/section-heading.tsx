@@ -25,10 +25,12 @@ export function SectionHeading({
       variants={fadeInUp}
     >
       <Badge>{eyebrow}</Badge>
-      <h2 className="mt-5 text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
+      <h2 className="mt-5 max-w-2xl text-3xl font-medium leading-tight tracking-tight text-foreground md:text-4xl">
         {title}
       </h2>
-      <p className="mt-4 text-base leading-7 text-muted-foreground md:text-lg">{description}</p>
+      <p className="mt-4 max-w-2xl text-base leading-8 text-muted-foreground md:text-lg">
+        {description}
+      </p>
     </motion.div>
   )
 }

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { motion, useReducedMotion } from "framer-motion"
+import { motion } from "framer-motion"
 import {
   HiArrowDownTray,
   HiArrowRight,
@@ -15,7 +15,7 @@ import { SectionHeading } from "@/components/molecules/section-heading"
 import { ThemeToggle } from "@/components/molecules/theme-toggle"
 import { useContactForm } from "@/hooks/use-contact-form"
 import { fadeInUp, staggerContainer } from "@/lib/motion"
-import type { BlogPost, ExperienceItem, PortfolioContent, ProjectItem, SkillCategory } from "@/types/portfolio"
+import type {  ExperienceItem, PortfolioContent, ProjectItem, SkillCategory } from "@/types/portfolio"
 
 interface PortfolioTemplateProps {
   portfolio: PortfolioContent
@@ -26,7 +26,7 @@ export function PortfolioTemplate({ portfolio }: PortfolioTemplateProps) {
     <div className="relative min-h-screen overflow-hidden">
       <a
         href="#content"
-        className="ring-focus absolute left-4 top-4 z-[60] -translate-y-20 rounded-full bg-accent px-4 py-2 text-sm font-medium text-slate-950 transition focus:translate-y-0"
+        className="ring-focus absolute left-4 top-4 z-[60] -translate-y-20 rounded-md border border-accent bg-background px-4 py-2 text-sm font-medium uppercase tracking-[0.14em] text-accent transition focus:translate-y-0"
       >
         Skip to content
       </a>
@@ -40,7 +40,7 @@ export function PortfolioTemplate({ portfolio }: PortfolioTemplateProps) {
         <ExperienceSection experience={portfolio.experience} />
         <ProjectsSection projects={portfolio.projects} />
         <AchievementsSection portfolio={portfolio} />
-        <BlogSection posts={portfolio.blogPosts} />
+        {/* <BlogSection posts={portfolio.blogPosts} /> */}
         <ContactSection portfolio={portfolio} />
       </main>
 
@@ -53,10 +53,12 @@ function SiteHeader({ portfolio }: PortfolioTemplateProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/60 bg-background/70 backdrop-blur-2xl">
+    <header className="sticky top-0 z-50 border-b border-border bg-background/95">
       <div className="section-shell flex min-h-20 items-center justify-between gap-4">
         <a href="#hero" className="ring-focus group min-w-0 rounded-xl">
-          <div className="text-sm font-semibold tracking-[0.28em] text-accent">{portfolio.name}</div>
+          <div className="font-display text-base font-medium tracking-[0.2em] text-foreground">
+            {portfolio.name}
+          </div>
           <div className="truncate text-xs text-muted-foreground">{portfolio.role}</div>
         </a>
 
@@ -65,7 +67,7 @@ function SiteHeader({ portfolio }: PortfolioTemplateProps) {
             <a
               key={item.id}
               href={`#${item.id}`}
-              className="ring-focus text-sm text-muted-foreground hover:text-foreground"
+              className="ring-focus border-b border-transparent pb-1 text-sm uppercase tracking-[0.14em] text-muted-foreground hover:border-accent/50 hover:text-foreground"
             >
               {item.label}
             </a>
@@ -83,7 +85,7 @@ function SiteHeader({ portfolio }: PortfolioTemplateProps) {
           <ThemeToggle />
           <button
             type="button"
-            className="ring-focus inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/70 bg-card/60 text-foreground"
+            className="ring-focus inline-flex h-11 w-11 items-center justify-center rounded-md border border-border bg-card text-foreground"
             aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
             onClick={() => setIsMenuOpen((currentState) => !currentState)}
           >
@@ -94,14 +96,14 @@ function SiteHeader({ portfolio }: PortfolioTemplateProps) {
 
       {isMenuOpen ? (
         <nav
-          className="section-shell flex flex-col gap-3 border-t border-border/60 py-5 lg:hidden"
+          className="section-shell flex flex-col gap-3 border-t border-border py-5 lg:hidden"
           aria-label="Mobile"
         >
           {portfolio.navigation.map((item) => (
             <a
               key={item.id}
               href={`#${item.id}`}
-              className="ring-focus rounded-2xl border border-border/60 bg-card/60 px-4 py-3 text-sm text-foreground"
+              className="ring-focus rounded-md border border-border bg-card px-4 py-3 text-sm uppercase tracking-[0.14em] text-foreground"
               onClick={() => setIsMenuOpen(false)}
             >
               {item.label}
@@ -117,24 +119,9 @@ function SiteHeader({ portfolio }: PortfolioTemplateProps) {
 }
 
 function HeroSection({ portfolio }: PortfolioTemplateProps) {
-  const prefersReducedMotion = useReducedMotion()
-
   return (
-    <section id="hero" className="relative overflow-hidden pb-20 pt-16 md:pb-28 md:pt-20">
-      <div className="pointer-events-none absolute inset-0 bg-hero-radial opacity-90" />
+    <section id="hero" className="relative overflow-hidden border-b border-border pb-20 pt-16 md:pb-28 md:pt-20">
       <div className="pointer-events-none absolute inset-0 grid-overlay" />
-      <motion.div
-        aria-hidden="true"
-        animate={prefersReducedMotion ? undefined : { y: [0, -18, 0], rotate: [0, 3, 0] }}
-        transition={{ duration: 10, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-        className="pointer-events-none absolute -left-10 top-20 h-44 w-44 rounded-full bg-accent/20 blur-3xl"
-      />
-      <motion.div
-        aria-hidden="true"
-        animate={prefersReducedMotion ? undefined : { y: [0, 24, 0], x: [0, -10, 0] }}
-        transition={{ duration: 12, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-        className="pointer-events-none absolute right-0 top-24 h-56 w-56 rounded-full bg-sky-400/20 blur-3xl"
-      />
 
       <div className="section-shell relative">
         <motion.div
@@ -145,15 +132,15 @@ function HeroSection({ portfolio }: PortfolioTemplateProps) {
         >
           <motion.div variants={fadeInUp}>
             <div className="mb-6 flex flex-wrap items-center gap-3">
-              <span className="inline-flex items-center rounded-full border border-accent/20 bg-accent/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.24em] text-accent">
+              <span className="editorial-label border-b border-accent/50 pb-1">
                 {portfolio.role}
               </span>
-              <span className="text-sm text-muted-foreground">{portfolio.location}</span>
+              <span className="text-sm italic text-muted-foreground">{portfolio.location}</span>
             </div>
-            <h1 className="max-w-4xl text-balance text-5xl font-semibold tracking-tight text-foreground md:text-6xl lg:text-7xl">
+            <h1 className="max-w-4xl text-balance text-5xl font-medium leading-[1.05] tracking-tight text-foreground md:text-6xl lg:text-7xl">
               {portfolio.hero.headline}
             </h1>
-            <p className="mt-6 max-w-3xl text-lg leading-8 text-muted-foreground md:text-xl">
+            <p className="mt-6 max-w-3xl text-lg leading-9 text-muted-foreground md:text-xl">
               {portfolio.hero.description}
             </p>
 
@@ -161,7 +148,7 @@ function HeroSection({ portfolio }: PortfolioTemplateProps) {
               {portfolio.hero.badges.map((badge) => (
                 <span
                   key={badge}
-                  className="rounded-full border border-border/70 bg-card/60 px-4 py-2 text-sm text-foreground"
+                  className="rounded-sm border border-border bg-card px-4 py-2 text-sm text-foreground"
                 >
                   {badge}
                 </span>
@@ -188,41 +175,41 @@ function HeroSection({ portfolio }: PortfolioTemplateProps) {
 
             <div className="mt-10 flex flex-wrap gap-3 text-sm text-muted-foreground">
               {portfolio.hero.featuredStack.map((item) => (
-                <span key={item} className="rounded-full bg-white/5 px-3 py-1.5">
+                <span key={item} className="rounded-sm border-b border-border/80 px-1 py-1.5">
                   {item}
                 </span>
               ))}
             </div>
           </motion.div>
 
-          <motion.aside variants={fadeInUp} className="surface-panel relative overflow-hidden p-6 md:p-8">
-            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent" />
+          <motion.aside variants={fadeInUp} className="surface-panel p-6 md:p-8">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-sm uppercase tracking-[0.24em] text-accent">Engineering snapshot</p>
+                <p className="editorial-label">Engineering snapshot</p>
                 <h2 className="mt-3 text-2xl font-semibold text-foreground">
                   Senior-level product delivery across mobile and full-stack systems.
                 </h2>
               </div>
-              <div className="rounded-2xl border border-accent/20 bg-accent/10 px-3 py-2 text-sm text-accent">
+              <div className="rounded-sm border border-accent/30 px-3 py-2 text-xs uppercase tracking-[0.18em] text-accent">
                 Open to impact-driven roles
               </div>
             </div>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              {portfolio.hero.stats.map((stat) => (
-                <div key={stat.label} className="rounded-2xl border border-border/70 bg-background/40 p-5">
+              {portfolio.hero.stats.map((stat, index) => (
+                <div key={stat.label} className="rounded-md border border-border bg-paper/50 p-5">
+                  <div className="editorial-label">{String(index + 1).padStart(2, "0")}</div>
                   <div className="text-2xl font-semibold text-foreground">{stat.value}</div>
                   <p className="mt-2 text-sm leading-6 text-muted-foreground">{stat.label}</p>
                 </div>
               ))}
             </div>
 
-            <div className="mt-8 rounded-2xl border border-border/70 bg-background/40 p-5">
+            <div className="mt-8 rounded-md border border-border bg-paper/50 p-5">
               <p className="text-sm font-medium text-foreground">Focus areas</p>
               <div className="mt-3 flex flex-wrap gap-2">
                 {["Performance", "Architecture", "User Experience", "Leadership"].map((item) => (
-                  <span key={item} className="rounded-full bg-accent/10 px-3 py-1 text-sm text-accent">
+                  <span key={item} className="rounded-sm border border-accent/25 px-3 py-1 text-sm text-accent">
                     {item}
                   </span>
                 ))}
@@ -237,7 +224,7 @@ function HeroSection({ portfolio }: PortfolioTemplateProps) {
 
 function AboutSection({ portfolio }: PortfolioTemplateProps) {
   return (
-    <section id="about" className="py-20 md:py-28">
+    <section id="about" className="section-divider py-20 md:py-28">
       <div className="section-shell">
         <SectionHeading
           eyebrow="About Me"
@@ -252,7 +239,7 @@ function AboutSection({ portfolio }: PortfolioTemplateProps) {
           viewport={{ once: true, amount: 0.2 }}
           variants={staggerContainer}
         >
-          <motion.div variants={fadeInUp} className="surface-panel p-8">
+          <motion.div variants={fadeInUp} className="surface-panel p-8 md:p-10">
             <div className="space-y-5 text-base leading-8 text-muted-foreground md:text-lg">
               {portfolio.about.story.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
@@ -262,7 +249,7 @@ function AboutSection({ portfolio }: PortfolioTemplateProps) {
 
           <div className="grid gap-6 sm:grid-cols-2">
             {portfolio.about.highlights.map((highlight) => (
-              <motion.div key={highlight.title} variants={fadeInUp} className="surface-panel p-6">
+              <motion.div key={highlight.title} variants={fadeInUp} className="surface-panel p-6 md:p-7">
                 <h3 className="text-lg font-semibold text-foreground">{highlight.title}</h3>
                 <p className="mt-3 text-sm leading-7 text-muted-foreground">{highlight.description}</p>
               </motion.div>
@@ -276,7 +263,7 @@ function AboutSection({ portfolio }: PortfolioTemplateProps) {
 
 function SkillsSection({ skills }: { skills: SkillCategory[] }) {
   return (
-    <section id="skills" className="py-20 md:py-28">
+    <section id="skills" className="section-divider py-20 md:py-28">
       <div className="section-shell">
         <SectionHeading
           eyebrow="Skills"
@@ -295,13 +282,13 @@ function SkillsSection({ skills }: { skills: SkillCategory[] }) {
             <motion.article key={category.category} variants={fadeInUp} className="surface-panel p-6">
               <div className="flex items-center justify-between gap-4">
                 <h3 className="text-xl font-semibold text-foreground">{category.category}</h3>
-                <span className="text-sm text-muted-foreground">{category.skills.length} skills</span>
+                <span className="editorial-label">{category.skills.length} skills</span>
               </div>
               <div className="mt-5 flex flex-wrap gap-2">
                 {category.skills.map((skill) => (
                   <span
                     key={skill}
-                    className="rounded-full border border-border/70 bg-background/50 px-3 py-2 text-sm text-foreground"
+                    className="rounded-sm border border-border bg-paper/40 px-3 py-2 text-sm text-foreground"
                   >
                     {skill}
                   </span>
@@ -317,7 +304,7 @@ function SkillsSection({ skills }: { skills: SkillCategory[] }) {
 
 function ExperienceSection({ experience }: { experience: ExperienceItem[] }) {
   return (
-    <section id="experience" className="py-20 md:py-28">
+    <section id="experience" className="section-divider py-20 md:py-28">
       <div className="section-shell">
         <SectionHeading
           eyebrow="Experience"
@@ -326,7 +313,7 @@ function ExperienceSection({ experience }: { experience: ExperienceItem[] }) {
         />
 
         <motion.div
-          className="relative mt-12 space-y-8 before:absolute before:left-4 before:top-4 before:h-[calc(100%-2rem)] before:w-px before:bg-border md:before:left-1/2"
+          className="relative mt-12 space-y-12 before:absolute before:left-4 before:top-0 before:h-full before:w-px before:bg-border md:before:left-1/2 md:before:-translate-x-1/2"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.15 }}
@@ -334,33 +321,97 @@ function ExperienceSection({ experience }: { experience: ExperienceItem[] }) {
         >
           {experience.map((item, index) => (
             <motion.article
-              key={item.company}
+              key={`${item.company}-${index}`}
               variants={fadeInUp}
-              className="relative grid gap-6 md:grid-cols-2 md:gap-10"
+              className="relative grid md:grid-cols-2 md:gap-12"
             >
-              <div className={index % 2 === 0 ? "md:pr-10" : "md:order-2 md:pl-10"}>
-                <div className="surface-panel p-7">
-                  <div className="flex flex-wrap items-center justify-between gap-3">
-                    <div>
-                      <p className="text-sm uppercase tracking-[0.22em] text-accent">{item.period}</p>
-                      <h3 className="mt-2 text-2xl font-semibold text-foreground">{item.company}</h3>
-                      <p className="mt-1 text-sm text-muted-foreground">{item.role}</p>
+              <div
+                className="absolute left-4 top-8 h-4 w-4 rounded-full border-2 border-background bg-accent md:left-1/2 md:-translate-x-1/2"
+              />
+
+              {index % 2 === 0 ? (
+                <>
+                  <div className="md:pr-12">
+                    <div className="surface-panel p-7 md:p-8">
+                      <div className="flex flex-wrap items-center justify-between gap-3">
+                        <div>
+                          <p className="text-sm uppercase tracking-[0.22em] text-accent">
+                            {item.period}
+                          </p>
+
+                          <h3 className="mt-2 text-2xl font-semibold text-foreground">
+                            {item.company}
+                          </h3>
+
+                          <p className="mt-1 text-sm text-muted-foreground">
+                            {item.role}
+                          </p>
+                        </div>
+
+                        <span className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-accent/30 text-accent">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                      </div>
+
+                      <p className="mt-5 text-sm leading-7 text-muted-foreground">
+                        {item.summary}
+                      </p>
+
+                      <ul className="mt-6 space-y-3 text-sm leading-7 text-muted-foreground">
+                        {item.highlights.map((highlight) => (
+                          <li key={highlight} className="flex gap-3">
+                            <span className="mt-2 h-2 w-2 rounded-full bg-accent" />
+                            <span>{highlight}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-accent/20 bg-accent/10 text-accent">
-                      0{index + 1}
-                    </span>
                   </div>
-                  <p className="mt-5 text-sm leading-7 text-muted-foreground">{item.summary}</p>
-                  <ul className="mt-6 space-y-3 text-sm leading-7 text-muted-foreground">
-                    {item.highlights.map((highlight) => (
-                      <li key={highlight} className="flex gap-3">
-                        <span className="mt-2 h-2 w-2 rounded-full bg-accent" />
-                        <span>{highlight}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+
+                  <div />
+                </>
+              ) : (
+                <>
+                  <div />
+
+                  <div className="md:pl-12">
+                    <div className="surface-panel p-7 md:p-8">
+                      <div className="flex flex-wrap items-center justify-between gap-3">
+                        <div>
+                          <p className="text-sm uppercase tracking-[0.22em] text-accent">
+                            {item.period}
+                          </p>
+
+                          <h3 className="mt-2 text-2xl font-semibold text-foreground">
+                            {item.company}
+                          </h3>
+
+                          <p className="mt-1 text-sm text-muted-foreground">
+                            {item.role}
+                          </p>
+                        </div>
+
+                        <span className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-accent/30 text-accent">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                      </div>
+
+                      <p className="mt-5 text-sm leading-7 text-muted-foreground">
+                        {item.summary}
+                      </p>
+
+                      <ul className="mt-6 space-y-3 text-sm leading-7 text-muted-foreground">
+                        {item.highlights.map((highlight) => (
+                          <li key={highlight} className="flex gap-3">
+                            <span className="mt-2 h-2 w-2 rounded-full bg-accent" />
+                            <span>{highlight}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </>
+              )}
             </motion.article>
           ))}
         </motion.div>
@@ -371,7 +422,7 @@ function ExperienceSection({ experience }: { experience: ExperienceItem[] }) {
 
 function ProjectsSection({ projects }: { projects: ProjectItem[] }) {
   return (
-    <section id="projects" className="py-20 md:py-28">
+    <section id="projects" className="section-divider py-20 md:py-28">
       <div className="section-shell">
         <SectionHeading
           eyebrow="Featured Projects"
@@ -392,11 +443,10 @@ function ProjectsSection({ projects }: { projects: ProjectItem[] }) {
               variants={fadeInUp}
               className="surface-panel flex h-full flex-col p-7"
             >
-              <p className="text-sm uppercase tracking-[0.22em] text-accent">Case Study</p>
               <h3 className="mt-2 text-2xl font-semibold text-foreground">{project.title}</h3>
               <p className="mt-5 text-sm leading-7 text-muted-foreground">{project.summary}</p>
 
-              <div className="mt-6 rounded-2xl border border-border/70 bg-background/40 p-5">
+              <div className="mt-6 rounded-md border border-border bg-paper/40 p-5">
                 <p className="text-sm font-medium text-foreground">Architecture</p>
                 <p className="mt-2 text-sm leading-7 text-muted-foreground">{project.architecture}</p>
               </div>
@@ -405,7 +455,7 @@ function ProjectsSection({ projects }: { projects: ProjectItem[] }) {
                 {project.technologies.map((technology) => (
                   <span
                     key={technology}
-                    className="rounded-full border border-border/70 bg-card/60 px-3 py-1.5 text-sm text-foreground"
+                    className="rounded-sm border border-border bg-paper/30 px-3 py-1.5 text-sm text-foreground"
                   >
                     {technology}
                   </span>
@@ -418,7 +468,7 @@ function ProjectsSection({ projects }: { projects: ProjectItem[] }) {
                   <ul className="mt-3 space-y-3 text-sm leading-7 text-muted-foreground">
                     {project.challenges.map((challenge) => (
                       <li key={challenge} className="flex gap-3">
-                        <span className="mt-2 h-2 w-2 rounded-full bg-amber-400" />
+                        <span className="mt-2 h-2 w-2 rounded-full bg-accent/60" />
                         <span>{challenge}</span>
                       </li>
                     ))}
@@ -446,7 +496,7 @@ function ProjectsSection({ projects }: { projects: ProjectItem[] }) {
 
 function AchievementsSection({ portfolio }: PortfolioTemplateProps) {
   return (
-    <section id="achievements" className="py-20 md:py-28">
+    <section id="achievements" className="section-divider py-20 md:py-28">
       <div className="section-shell">
         <SectionHeading
           eyebrow="Achievements"
@@ -463,7 +513,7 @@ function AchievementsSection({ portfolio }: PortfolioTemplateProps) {
         >
           <div className="grid gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(320px,1.1fr)] lg:items-center">
             <div>
-              <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-accent/20 bg-accent/10 text-accent">
+              <div className="inline-flex h-14 w-14 items-center justify-center rounded-md border border-accent/30 text-accent">
                 <HiSparkles className="h-7 w-7" />
               </div>
               <p className="mt-5 text-sm uppercase tracking-[0.22em] text-accent">
@@ -479,7 +529,7 @@ function AchievementsSection({ portfolio }: PortfolioTemplateProps) {
 
             <div className="grid gap-4 sm:grid-cols-2">
               {portfolio.achievement.pillars.map((pillar) => (
-                <div key={pillar} className="rounded-2xl border border-border/70 bg-background/40 p-5">
+                <div key={pillar} className="rounded-md border border-border bg-paper/40 p-5">
                   <p className="text-lg font-semibold text-foreground">{pillar}</p>
                   <p className="mt-2 text-sm leading-7 text-muted-foreground">
                     A signal of consistent contribution across delivery, collaboration, and innovation.
@@ -494,48 +544,48 @@ function AchievementsSection({ portfolio }: PortfolioTemplateProps) {
   )
 }
 
-function BlogSection({ posts }: { posts: BlogPost[] }) {
-  return (
-    <section id="blog" className="py-20 md:py-28">
-      <div className="section-shell">
-        <SectionHeading
-          eyebrow="Blog"
-          title="Upcoming technical writing focused on mobile architecture, scale, and backend craftsmanship."
-          description="These placeholder topics outline the content direction for the portfolios engineering voice and personal brand."
-        />
+// function BlogSection({ posts }: { posts: BlogPost[] }) {
+//   return (
+//     <section id="blog" className="section-divider py-20 md:py-28">
+//       <div className="section-shell">
+//         <SectionHeading
+//           eyebrow="Blog"
+//           title="Upcoming technical writing focused on mobile architecture, scale, and backend craftsmanship."
+//           description="These placeholder topics outline the content direction for the portfolios engineering voice and personal brand."
+//         />
 
-        <motion.div
-          className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={staggerContainer}
-        >
-          {posts.map((post) => (
-            <motion.article key={post.title} variants={fadeInUp} className="surface-panel flex h-full flex-col p-6">
-              <div className="flex items-center justify-between gap-3 text-xs uppercase tracking-[0.2em] text-accent">
-                <span>Placeholder article</span>
-                <span className="text-muted-foreground">{post.readTime}</span>
-              </div>
-              <h3 className="mt-5 text-xl font-semibold text-foreground">{post.title}</h3>
-              <p className="mt-4 flex-1 text-sm leading-7 text-muted-foreground">{post.summary}</p>
-              <div className="mt-6 flex flex-wrap gap-2">
-                {post.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-full border border-border/70 bg-background/50 px-3 py-1.5 text-xs uppercase tracking-[0.18em] text-muted-foreground"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </motion.article>
-          ))}
-        </motion.div>
-      </div>
-    </section>
-  )
-}
+//         <motion.div
+//           className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3"
+//           initial="hidden"
+//           whileInView="visible"
+//           viewport={{ once: true, amount: 0.2 }}
+//           variants={staggerContainer}
+//         >
+//           {posts.map((post) => (
+//             <motion.article key={post.title} variants={fadeInUp} className="surface-panel flex h-full flex-col p-6">
+//               <div className="flex items-center justify-between gap-3 text-xs uppercase tracking-[0.2em] text-accent">
+//                 <span>Placeholder article</span>
+//                 <span className="text-muted-foreground">{post.readTime}</span>
+//               </div>
+//               <h3 className="mt-5 text-xl font-semibold text-foreground">{post.title}</h3>
+//               <p className="mt-4 flex-1 text-sm leading-7 text-muted-foreground">{post.summary}</p>
+//               <div className="mt-6 flex flex-wrap gap-2">
+//                 {post.tags.map((tag) => (
+//                   <span
+//                     key={tag}
+//                     className="rounded-sm border border-border bg-paper/40 px-3 py-1.5 text-xs uppercase tracking-[0.18em] text-muted-foreground"
+//                   >
+//                     {tag}
+//                   </span>
+//                 ))}
+//               </div>
+//             </motion.article>
+//           ))}
+//         </motion.div>
+//       </div>
+//     </section>
+//   )
+// }
 
 function ContactSection({ portfolio }: PortfolioTemplateProps) {
   const { values, updateField, handleSubmit, submitState, statusMessage, isEmailJsEnabled } =
@@ -548,7 +598,7 @@ function ContactSection({ portfolio }: PortfolioTemplateProps) {
   ]
 
   return (
-    <section id="contact" className="py-20 md:py-28">
+    <section id="contact" className="section-divider py-20 md:py-28">
       <div className="section-shell">
         <SectionHeading
           eyebrow="Contact"
@@ -564,7 +614,7 @@ function ContactSection({ portfolio }: PortfolioTemplateProps) {
           variants={staggerContainer}
         >
           <motion.div variants={fadeInUp} className="surface-panel p-7 md:p-8">
-            <p className="text-sm uppercase tracking-[0.22em] text-accent">Direct channels</p>
+            <p className="editorial-label">Direct channels</p>
             <div className="mt-6 space-y-4">
               {socialEntries.map((entry) => (
                 <a
@@ -572,9 +622,9 @@ function ContactSection({ portfolio }: PortfolioTemplateProps) {
                   href={entry.href}
                   target={entry.href.startsWith("http") ? "_blank" : undefined}
                   rel={entry.href.startsWith("http") ? "noreferrer" : undefined}
-                  className="ring-focus flex items-start gap-4 rounded-2xl border border-border/70 bg-background/40 p-4 hover:border-accent/30"
+                  className="ring-focus flex items-start gap-4 rounded-md border border-border bg-paper/30 p-4 hover:border-accent/60"
                 >
-                  <span className="mt-1 inline-flex h-10 w-10 items-center justify-center rounded-xl border border-accent/20 bg-accent/10 text-accent">
+                  <span className="mt-1 inline-flex h-10 w-10 items-center justify-center rounded-sm border border-accent/30 text-accent">
                     {entry.icon}
                   </span>
                   <span>
@@ -587,7 +637,7 @@ function ContactSection({ portfolio }: PortfolioTemplateProps) {
               ))}
             </div>
 
-            <div className="mt-8 rounded-2xl border border-border/70 bg-background/40 p-5 text-sm leading-7 text-muted-foreground">
+            <div className="mt-8 rounded-md border border-border bg-paper/30 p-5 text-sm leading-7 text-muted-foreground">
               <p className="font-medium text-foreground">EmailJS integration</p>
               <p className="mt-2">
                 {isEmailJsEnabled
@@ -604,7 +654,7 @@ function ContactSection({ portfolio }: PortfolioTemplateProps) {
                 <input
                   value={values.name}
                   onChange={(event) => updateField("name", event.target.value)}
-                  className="ring-focus min-h-12 rounded-2xl border border-border/70 bg-background/60 px-4 text-foreground placeholder:text-muted-foreground"
+                  className="ring-focus min-h-12 rounded-md border border-border bg-background px-4 text-foreground placeholder:text-muted-foreground"
                   placeholder="Your name"
                   autoComplete="name"
                 />
@@ -616,7 +666,7 @@ function ContactSection({ portfolio }: PortfolioTemplateProps) {
                   type="email"
                   value={values.email}
                   onChange={(event) => updateField("email", event.target.value)}
-                  className="ring-focus min-h-12 rounded-2xl border border-border/70 bg-background/60 px-4 text-foreground placeholder:text-muted-foreground"
+                  className="ring-focus min-h-12 rounded-md border border-border bg-background px-4 text-foreground placeholder:text-muted-foreground"
                   placeholder="you@example.com"
                   autoComplete="email"
                 />
@@ -627,7 +677,7 @@ function ContactSection({ portfolio }: PortfolioTemplateProps) {
                 <textarea
                   value={values.message}
                   onChange={(event) => updateField("message", event.target.value)}
-                  className="ring-focus min-h-40 rounded-2xl border border-border/70 bg-background/60 px-4 py-3 text-foreground placeholder:text-muted-foreground"
+                  className="ring-focus min-h-40 rounded-md border border-border bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground"
                   placeholder="Tell me about the role, project, or architecture challenge you are solving."
                 />
               </label>
@@ -659,10 +709,10 @@ function ContactSection({ portfolio }: PortfolioTemplateProps) {
 
 function SiteFooter({ portfolio }: PortfolioTemplateProps) {
   return (
-    <footer className="border-t border-border/70 py-10">
+    <footer className="border-t border-border py-10">
       <div className="section-shell flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-accent">{portfolio.name}</p>
+          <p className="font-display text-lg font-medium tracking-[0.16em] text-foreground">{portfolio.name}</p>
           <p className="mt-2 text-sm text-muted-foreground">
             {portfolio.role} • Crafted with React, TypeScript, and Tailwind CSS.
           </p>
@@ -670,7 +720,11 @@ function SiteFooter({ portfolio }: PortfolioTemplateProps) {
 
         <nav className="flex flex-wrap gap-4 text-sm text-muted-foreground" aria-label="Footer">
           {portfolio.navigation.map((item) => (
-            <a key={item.id} href={`#${item.id}`} className="ring-focus hover:text-foreground">
+            <a
+              key={item.id}
+              href={`#${item.id}`}
+              className="ring-focus border-b border-transparent pb-1 uppercase tracking-[0.14em] hover:border-accent/50 hover:text-foreground"
+            >
               {item.label}
             </a>
           ))}
