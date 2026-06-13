@@ -47,7 +47,7 @@ export const portfolio: PortfolioContent = {
     },
     email: {
       label: "Email",
-      href: EMAIL_URL,
+      href: `mailto:${EMAIL_URL}`,
       description: "Direct contact for senior roles, consulting, and product builds",
     },
   },

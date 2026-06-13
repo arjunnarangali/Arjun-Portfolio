@@ -530,19 +530,9 @@ function ProjectsSection({ projects }: { projects: ProjectItem[] }) {
           description="Every project is framed around the problem, the system shape, the technical decisions involved, and the product value the work needed to unlock."
         />
 
-        <motion.div
-          className="mt-12 space-y-8"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.15 }}
-          variants={staggerContainer}
-        >
+        <div className="mt-12 space-y-8">
           {projects.map((project) => (
-            <motion.article
-              key={project.title}
-              variants={fadeInUp}
-              className="surface-panel flex h-full flex-col p-7 md:p-8"
-            >
+            <article key={project.title} className="surface-panel flex h-full flex-col p-7 md:p-8">
               <div className="grid gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(260px,1.1fr)]">
                 <div>
                   <p className="editorial-label">Case Study</p>
@@ -600,9 +590,9 @@ function ProjectsSection({ projects }: { projects: ProjectItem[] }) {
                   dotClassName="bg-foreground/70"
                 />
               </div>
-            </motion.article>
+            </article>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   )

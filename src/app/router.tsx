@@ -1,8 +1,8 @@
 import { Suspense, lazy } from "react"
 import type { ComponentType, LazyExoticComponent } from "react"
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
+import HomePage from "../pages/home-page"
 
-const HomePage = lazy(() => import("../pages/home-page"))
 const NotFoundPage = lazy(() => import("../pages/not-found-page"))
 
 function RouteLoader() {
@@ -24,7 +24,7 @@ function renderLazyPage(Page: LazyExoticComponent<ComponentType>) {
 const router = createBrowserRouter([
   {
     path: "/",
-    element: renderLazyPage(HomePage),
+    element: <HomePage />,
     errorElement: renderLazyPage(NotFoundPage),
   },
   {
