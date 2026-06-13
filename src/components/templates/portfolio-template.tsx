@@ -176,9 +176,10 @@ function HeroSection({ portfolio }: PortfolioTemplateProps) {
                 href={portfolio.contact.resumeHref}
                 variant="secondary"
                 icon={<HiArrowDownTray />}
-                download="Arjun-N-Resume.html"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                Download Resume
+                View Resume
               </Button>
               <Button href="#contact" variant="ghost">
                 Contact Me
@@ -636,7 +637,7 @@ function ContactSection({ portfolio }: PortfolioTemplateProps) {
               <Button type="submit" size="lg" disabled={submitState === "sending"}>
                 {submitState === "sending" ? "Sending..." : "Send Message"}
               </Button>
-              <Button href={portfolio.contact.resumeHref} variant="secondary" download="Arjun-N-Resume.html">
+              <Button href={portfolio.contact.resumeHref} variant="secondary">
                 Download Resume
               </Button>
             </div>

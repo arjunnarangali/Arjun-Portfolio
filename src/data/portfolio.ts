@@ -1,3 +1,4 @@
+import { DOMAIN_URL, EMAIL_URL, GITHUB_URL, LINKEDIN_URL, RESUME_URL } from "@/config/envConstants"
 import type { PortfolioContent } from "@/types/portfolio"
 
 export const portfolio: PortfolioContent = {
@@ -9,7 +10,7 @@ export const portfolio: PortfolioContent = {
     title: "Arjun N | Senior React Native Developer",
     description:
       "Senior React Native Developer crafting scalable mobile and web platforms for fintech, logistics, EV charging, talent acquisition, and Smart TV ecosystems.",
-    siteUrl: "https://replace-with-your-domain.dev",
+    siteUrl: DOMAIN_URL,
     keywords: [
       "Arjun N",
       "Senior React Native Developer",
@@ -31,17 +32,17 @@ export const portfolio: PortfolioContent = {
   socials: {
     linkedin: {
       label: "LinkedIn",
-      href: "https://www.linkedin.com/in/replace-this",
+      href: LINKEDIN_URL,
       description: "Professional network and leadership profile",
     },
     github: {
       label: "GitHub",
-      href: "https://github.com/replace-this",
+      href: GITHUB_URL,
       description: "Code samples, side projects, and experiments",
     },
     email: {
       label: "Email",
-      href: "mailto:arjun.n@example.com",
+      href: EMAIL_URL,
       description: "Direct contact for hiring and consulting",
     },
   },
@@ -263,7 +264,7 @@ export const portfolio: PortfolioContent = {
     headline: "Lets build resilient products that users trust.",
     summary:
       "I am open to senior engineering roles, freelance product builds, architecture consulting, and technical leadership conversations.",
-    email: "arjun.n@example.com",
-    resumeHref: "/arjun-n-resume.html",
+    email: EMAIL_URL,
+    resumeHref: RESUME_URL,
   },
 }
