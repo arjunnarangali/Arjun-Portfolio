@@ -14,6 +14,11 @@ export interface StatItem {
   label: string
 }
 
+export interface ProofMetric {
+  label: string
+  detail: string
+}
+
 export interface HighlightItem {
   title: string
   description: string
@@ -29,16 +34,27 @@ export interface ExperienceItem {
   role: string
   period: string
   summary: string
+  scope: string[]
   highlights: string[]
 }
 
 export interface ProjectItem {
   title: string
   summary: string
+  problem: string
+  solution: string
   architecture: string
   technologies: string[]
   challenges: string[]
-  achievements: string[]
+  architectureDecisions: string[]
+  impact: string[]
+  lessons: string[]
+}
+
+export interface CredibilityItem {
+  title: string
+  summary: string
+  evidence: string[]
 }
 
 export interface BlogPost {
@@ -52,7 +68,7 @@ export interface Achievement {
   title: string
   organization: string
   summary: string
-  pillars: string[]
+  pillars: HighlightItem[]
 }
 
 export interface PortfolioContent {
@@ -78,10 +94,16 @@ export interface PortfolioContent {
     badges: string[]
     featuredStack: string[]
     stats: StatItem[]
+    proofMetrics: ProofMetric[]
   }
   about: {
     story: string[]
     highlights: HighlightItem[]
+  }
+  credibility: {
+    title: string
+    description: string
+    items: CredibilityItem[]
   }
   skills: SkillCategory[]
   experience: ExperienceItem[]

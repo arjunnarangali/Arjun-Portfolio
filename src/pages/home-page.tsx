@@ -7,8 +7,10 @@ const structuredData = [
     "@context": "https://schema.org",
     "@type": "Person",
     name: portfolio.name,
+    url: portfolio.seo.siteUrl,
     jobTitle: portfolio.role,
     description: portfolio.seo.description,
+    image: `${portfolio.seo.siteUrl}/og-cover.svg`,
     address: {
       "@type": "PostalAddress",
       addressLocality: portfolio.location,
@@ -31,6 +33,22 @@ const structuredData = [
     name: portfolio.seo.siteName,
     url: portfolio.seo.siteUrl,
     description: portfolio.seo.description,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: portfolio.seo.title,
+    url: portfolio.seo.siteUrl,
+    description: portfolio.seo.description,
+    isPartOf: {
+      "@type": "WebSite",
+      name: portfolio.seo.siteName,
+      url: portfolio.seo.siteUrl,
+    },
+    about: {
+      "@type": "Person",
+      name: portfolio.name,
+    },
   },
 ]
 

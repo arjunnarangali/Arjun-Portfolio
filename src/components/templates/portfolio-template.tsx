@@ -15,7 +15,13 @@ import { SectionHeading } from "@/components/molecules/section-heading"
 import { ThemeToggle } from "@/components/molecules/theme-toggle"
 import { useContactForm } from "@/hooks/use-contact-form"
 import { fadeInUp, staggerContainer } from "@/lib/motion"
-import type {  ExperienceItem, PortfolioContent, ProjectItem, SkillCategory } from "@/types/portfolio"
+import type {
+  CredibilityItem,
+  ExperienceItem,
+  PortfolioContent,
+  ProjectItem,
+  SkillCategory,
+} from "@/types/portfolio"
 
 interface PortfolioTemplateProps {
   portfolio: PortfolioContent
@@ -36,6 +42,7 @@ export function PortfolioTemplate({ portfolio }: PortfolioTemplateProps) {
       <main id="content">
         <HeroSection portfolio={portfolio} />
         <AboutSection portfolio={portfolio} />
+        <CredibilitySection portfolio={portfolio} />
         <SkillsSection skills={portfolio.skills} />
         <ExperienceSection experience={portfolio.experience} />
         <ProjectsSection projects={portfolio.projects} />
@@ -119,6 +126,8 @@ function SiteHeader({ portfolio }: PortfolioTemplateProps) {
 }
 
 function HeroSection({ portfolio }: PortfolioTemplateProps) {
+  const recruiterLinks = [portfolio.socials.linkedin, portfolio.socials.github]
+
   return (
     <section id="hero" className="relative overflow-hidden border-b border-border pb-20 pt-16 md:pb-28 md:pt-20">
       <div className="pointer-events-none absolute inset-0 grid-overlay" />
@@ -133,13 +142,14 @@ function HeroSection({ portfolio }: PortfolioTemplateProps) {
           <motion.div variants={fadeInUp}>
             <div className="mb-6 flex flex-wrap items-center gap-3">
               <span className="editorial-label border-b border-accent/50 pb-1">
-                {portfolio.role}
+                Open to senior React Native and mobile platform roles
               </span>
               <span className="text-sm italic text-muted-foreground">{portfolio.location}</span>
             </div>
             <h1 className="max-w-4xl text-balance text-5xl font-medium leading-[1.05] tracking-tight text-foreground md:text-6xl lg:text-7xl">
               {portfolio.hero.headline}
             </h1>
+            <p className="mt-4 text-lg font-medium text-foreground md:text-xl">{portfolio.role}</p>
             <p className="mt-6 max-w-3xl text-lg leading-9 text-muted-foreground md:text-xl">
               {portfolio.hero.description}
             </p>
@@ -157,7 +167,7 @@ function HeroSection({ portfolio }: PortfolioTemplateProps) {
 
             <div className="mt-10 flex flex-wrap gap-4">
               <Button href="#projects" icon={<HiArrowRight />}>
-                View Projects
+                View Case Studies
               </Button>
               <Button
                 href={portfolio.contact.resumeHref}
@@ -173,11 +183,35 @@ function HeroSection({ portfolio }: PortfolioTemplateProps) {
               </Button>
             </div>
 
+            <div className="mt-8 grid gap-4 border-y border-border py-5 md:grid-cols-3">
+              {portfolio.hero.proofMetrics.map((metric) => (
+                <div key={metric.label}>
+                  <p className="editorial-label">{metric.label}</p>
+                  <p className="mt-2 text-sm leading-7 text-muted-foreground">{metric.detail}</p>
+                </div>
+              ))}
+            </div>
+
             <div className="mt-10 flex flex-wrap gap-3 text-sm text-muted-foreground">
               {portfolio.hero.featuredStack.map((item) => (
                 <span key={item} className="rounded-sm border-b border-border/80 px-1 py-1.5">
                   {item}
                 </span>
+              ))}
+            </div>
+
+            <div className="mt-8 flex flex-wrap gap-5 text-sm text-muted-foreground">
+              {recruiterLinks.map((entry) => (
+                <a
+                  key={entry.label}
+                  href={entry.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="ring-focus inline-flex items-center gap-2 border-b border-border pb-1 hover:border-accent/60 hover:text-foreground"
+                >
+                  <span>{entry.label}</span>
+                  <HiArrowRight className="h-4 w-4" aria-hidden="true" />
+                </a>
               ))}
             </div>
           </motion.div>
@@ -187,11 +221,11 @@ function HeroSection({ portfolio }: PortfolioTemplateProps) {
               <div>
                 <p className="editorial-label">Engineering snapshot</p>
                 <h2 className="mt-3 text-2xl font-semibold text-foreground">
-                  Senior-level product delivery across mobile and full-stack systems.
+                  Senior-level product delivery across React Native, frontend systems, and backend collaboration.
                 </h2>
               </div>
               <div className="rounded-sm border border-accent/30 px-3 py-2 text-xs uppercase tracking-[0.18em] text-accent">
-                Open to impact-driven roles
+                Bangalore, India
               </div>
             </div>
 
@@ -206,9 +240,9 @@ function HeroSection({ portfolio }: PortfolioTemplateProps) {
             </div>
 
             <div className="mt-8 rounded-md border border-border bg-paper/50 p-5">
-              <p className="text-sm font-medium text-foreground">Focus areas</p>
+              <p className="text-sm font-medium text-foreground">Focus areas recruiters can scan quickly</p>
               <div className="mt-3 flex flex-wrap gap-2">
-                {["Performance", "Architecture", "User Experience", "Leadership"].map((item) => (
+                {["React Native", "Architecture", "Workflow UX", "Delivery Leadership"].map((item) => (
                   <span key={item} className="rounded-sm border border-accent/25 px-3 py-1 text-sm text-accent">
                     {item}
                   </span>
@@ -228,8 +262,8 @@ function AboutSection({ portfolio }: PortfolioTemplateProps) {
       <div className="section-shell">
         <SectionHeading
           eyebrow="About Me"
-          title="Engineering leadership rooted in product thinking and execution quality."
-          description="I work best where mobile excellence, platform clarity, and business outcomes need to move together."
+          title="Senior React Native delivery grounded in architecture clarity and product execution."
+          description="I work best on products where state complexity, operational workflows, and user trust all need to hold up in production."
         />
 
         <motion.div
@@ -261,14 +295,58 @@ function AboutSection({ portfolio }: PortfolioTemplateProps) {
   )
 }
 
+function CredibilitySection({ portfolio }: PortfolioTemplateProps) {
+  return (
+    <section id="proof" className="section-divider py-20 md:py-28">
+      <div className="section-shell">
+        <SectionHeading
+          eyebrow="Engineering Proof"
+          title={portfolio.credibility.title}
+          description={portfolio.credibility.description}
+        />
+
+        <motion.div
+          className="mt-12 grid gap-6 xl:grid-cols-2"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={staggerContainer}
+        >
+          {portfolio.credibility.items.map((item) => (
+            <CredibilityCard key={item.title} item={item} />
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
+function CredibilityCard({ item }: { item: CredibilityItem }) {
+  return (
+    <motion.article variants={fadeInUp} className="surface-panel p-7 md:p-8">
+      <h3 className="text-2xl font-semibold text-foreground">{item.title}</h3>
+      <p className="mt-4 text-sm leading-7 text-muted-foreground">{item.summary}</p>
+
+      <ul className="mt-6 space-y-3 text-sm leading-7 text-muted-foreground">
+        {item.evidence.map((evidencePoint) => (
+          <li key={evidencePoint} className="flex gap-3">
+            <span className="mt-2 h-2 w-2 rounded-full bg-accent" />
+            <span>{evidencePoint}</span>
+          </li>
+        ))}
+      </ul>
+    </motion.article>
+  )
+}
+
 function SkillsSection({ skills }: { skills: SkillCategory[] }) {
   return (
     <section id="skills" className="section-divider py-20 md:py-28">
       <div className="section-shell">
         <SectionHeading
           eyebrow="Skills"
-          title="A toolkit built for complex products, strong foundations, and reliable delivery."
-          description="From React Native interfaces to backend services and delivery leadership, each capability supports scalable product execution."
+          title="A stack shaped by real product delivery rather than broad buzzword collection."
+          description="These are the tools and practices that show up repeatedly in the mobile, frontend, backend, and delivery work I do most often."
         />
 
         <motion.div
@@ -308,8 +386,8 @@ function ExperienceSection({ experience }: { experience: ExperienceItem[] }) {
       <div className="section-shell">
         <SectionHeading
           eyebrow="Experience"
-          title="A delivery track record shaped by mobile products, backend systems, and architecture ownership."
-          description="I have contributed across the full lifecycle, from product discovery and implementation to testing, scaling, and team guidance."
+          title="A delivery track record across mobile products, enterprise workflows, and architecture-heavy implementation."
+          description="Each role below highlights the kind of ownership I carried, the systems I worked on, and the technical context behind that work."
         />
 
         <motion.div
@@ -357,6 +435,17 @@ function ExperienceSection({ experience }: { experience: ExperienceItem[] }) {
                         {item.summary}
                       </p>
 
+                      <div className="mt-5 flex flex-wrap gap-2">
+                        {item.scope.map((scopeItem) => (
+                          <span
+                            key={scopeItem}
+                            className="rounded-sm border border-border bg-paper/40 px-3 py-1.5 text-xs uppercase tracking-[0.14em] text-muted-foreground"
+                          >
+                            {scopeItem}
+                          </span>
+                        ))}
+                      </div>
+
                       <ul className="mt-6 space-y-3 text-sm leading-7 text-muted-foreground">
                         {item.highlights.map((highlight) => (
                           <li key={highlight} className="flex gap-3">
@@ -400,6 +489,17 @@ function ExperienceSection({ experience }: { experience: ExperienceItem[] }) {
                         {item.summary}
                       </p>
 
+                      <div className="mt-5 flex flex-wrap gap-2">
+                        {item.scope.map((scopeItem) => (
+                          <span
+                            key={scopeItem}
+                            className="rounded-sm border border-border bg-paper/40 px-3 py-1.5 text-xs uppercase tracking-[0.14em] text-muted-foreground"
+                          >
+                            {scopeItem}
+                          </span>
+                        ))}
+                      </div>
+
                       <ul className="mt-6 space-y-3 text-sm leading-7 text-muted-foreground">
                         {item.highlights.map((highlight) => (
                           <li key={highlight} className="flex gap-3">
@@ -426,12 +526,12 @@ function ProjectsSection({ projects }: { projects: ProjectItem[] }) {
       <div className="section-shell">
         <SectionHeading
           eyebrow="Featured Projects"
-          title="Selected platforms built for scale, reliability, and measurable product value."
-          description="Each project combines engineering depth with domain understanding, from fintech and logistics to EV charging and smart content platforms."
+          title="Selected case studies showing the kind of product and architecture work I have shipped."
+          description="Every project is framed around the problem, the system shape, the technical decisions involved, and the product value the work needed to unlock."
         />
 
         <motion.div
-          className="mt-12 grid gap-6 xl:grid-cols-2"
+          className="mt-12 space-y-8"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.15 }}
@@ -441,50 +541,64 @@ function ProjectsSection({ projects }: { projects: ProjectItem[] }) {
             <motion.article
               key={project.title}
               variants={fadeInUp}
-              className="surface-panel flex h-full flex-col p-7"
+              className="surface-panel flex h-full flex-col p-7 md:p-8"
             >
-              <h3 className="mt-2 text-2xl font-semibold text-foreground">{project.title}</h3>
-              <p className="mt-5 text-sm leading-7 text-muted-foreground">{project.summary}</p>
+              <div className="grid gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(260px,1.1fr)]">
+                <div>
+                  <p className="editorial-label">Case Study</p>
+                  <h3 className="mt-3 text-2xl font-semibold text-foreground md:text-3xl">{project.title}</h3>
+                  <p className="mt-4 text-base leading-8 text-muted-foreground">{project.summary}</p>
 
-              <div className="mt-6 rounded-md border border-border bg-paper/40 p-5">
-                <p className="text-sm font-medium text-foreground">Architecture</p>
-                <p className="mt-2 text-sm leading-7 text-muted-foreground">{project.architecture}</p>
+                  <div className="mt-6 rounded-md border border-border bg-paper/40 p-5">
+                    <p className="text-sm font-medium text-foreground">Problem</p>
+                    <p className="mt-2 text-sm leading-7 text-muted-foreground">{project.problem}</p>
+                  </div>
+
+                  <div className="mt-6 rounded-md border border-border bg-paper/40 p-5">
+                    <p className="text-sm font-medium text-foreground">Solution</p>
+                    <p className="mt-2 text-sm leading-7 text-muted-foreground">{project.solution}</p>
+                  </div>
+                </div>
+
+                <div className="space-y-6">
+                  <div className="rounded-md border border-border bg-paper/40 p-5">
+                    <p className="text-sm font-medium text-foreground">Architecture</p>
+                    <p className="mt-2 text-sm leading-7 text-muted-foreground">{project.architecture}</p>
+                  </div>
+
+                  <div>
+                    <p className="text-sm font-medium text-foreground">Technology stack</p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {project.technologies.map((technology) => (
+                        <span
+                          key={technology}
+                          className="rounded-sm border border-border bg-paper/30 px-3 py-1.5 text-sm text-foreground"
+                        >
+                          {technology}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              <div className="mt-6 flex flex-wrap gap-2">
-                {project.technologies.map((technology) => (
-                  <span
-                    key={technology}
-                    className="rounded-sm border border-border bg-paper/30 px-3 py-1.5 text-sm text-foreground"
-                  >
-                    {technology}
-                  </span>
-                ))}
-              </div>
-
-              <div className="mt-6 grid gap-6 md:grid-cols-2">
-                <div>
-                  <p className="text-sm font-medium text-foreground">Challenges</p>
-                  <ul className="mt-3 space-y-3 text-sm leading-7 text-muted-foreground">
-                    {project.challenges.map((challenge) => (
-                      <li key={challenge} className="flex gap-3">
-                        <span className="mt-2 h-2 w-2 rounded-full bg-accent/60" />
-                        <span>{challenge}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-foreground">Key achievements</p>
-                  <ul className="mt-3 space-y-3 text-sm leading-7 text-muted-foreground">
-                    {project.achievements.map((achievement) => (
-                      <li key={achievement} className="flex gap-3">
-                        <span className="mt-2 h-2 w-2 rounded-full bg-success" />
-                        <span>{achievement}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+              <div className="mt-8 grid gap-6 lg:grid-cols-2">
+                <ProjectBulletList
+                  title="Technical challenges"
+                  items={project.challenges}
+                  dotClassName="bg-accent/60"
+                />
+                <ProjectBulletList
+                  title="Architecture decisions"
+                  items={project.architectureDecisions}
+                  dotClassName="bg-accent"
+                />
+                <ProjectBulletList title="Impact" items={project.impact} dotClassName="bg-success" />
+                <ProjectBulletList
+                  title="Lessons learned"
+                  items={project.lessons}
+                  dotClassName="bg-foreground/70"
+                />
               </div>
             </motion.article>
           ))}
@@ -494,14 +608,38 @@ function ProjectsSection({ projects }: { projects: ProjectItem[] }) {
   )
 }
 
+function ProjectBulletList({
+  title,
+  items,
+  dotClassName,
+}: {
+  title: string
+  items: string[]
+  dotClassName: string
+}) {
+  return (
+    <div>
+      <p className="text-sm font-medium text-foreground">{title}</p>
+      <ul className="mt-3 space-y-3 text-sm leading-7 text-muted-foreground">
+        {items.map((item) => (
+          <li key={item} className="flex gap-3">
+            <span className={`mt-2 h-2 w-2 rounded-full ${dotClassName}`} />
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
 function AchievementsSection({ portfolio }: PortfolioTemplateProps) {
   return (
     <section id="achievements" className="section-divider py-20 md:py-28">
       <div className="section-shell">
         <SectionHeading
-          eyebrow="Achievements"
-          title="Recognition earned through leadership, execution quality, and meaningful team impact."
-          description="The most rewarding outcomes are the ones that elevate both product results and the people building them."
+          eyebrow="Recognition"
+          title="Professional trust built through delivery consistency and team contribution."
+          description="The strongest external signal on this page is recognition earned in a professional environment, not a self-assigned label."
         />
 
         <motion.div
@@ -529,11 +667,9 @@ function AchievementsSection({ portfolio }: PortfolioTemplateProps) {
 
             <div className="grid gap-4 sm:grid-cols-2">
               {portfolio.achievement.pillars.map((pillar) => (
-                <div key={pillar} className="rounded-md border border-border bg-paper/40 p-5">
-                  <p className="text-lg font-semibold text-foreground">{pillar}</p>
-                  <p className="mt-2 text-sm leading-7 text-muted-foreground">
-                    A signal of consistent contribution across delivery, collaboration, and innovation.
-                  </p>
+                <div key={pillar.title} className="rounded-md border border-border bg-paper/40 p-5">
+                  <p className="text-lg font-semibold text-foreground">{pillar.title}</p>
+                  <p className="mt-2 text-sm leading-7 text-muted-foreground">{pillar.description}</p>
                 </div>
               ))}
             </div>
@@ -588,8 +724,9 @@ function AchievementsSection({ portfolio }: PortfolioTemplateProps) {
 // }
 
 function ContactSection({ portfolio }: PortfolioTemplateProps) {
-  const { values, updateField, handleSubmit, submitState, statusMessage, isEmailJsEnabled } =
-    useContactForm(portfolio.contact.email)
+  const { values, updateField, handleSubmit, submitState, statusMessage } = useContactForm(
+    portfolio.contact.email,
+  )
 
   const socialEntries = [
     { icon: <HiLink className="h-5 w-5" />, ...portfolio.socials.linkedin },
@@ -638,12 +775,21 @@ function ContactSection({ portfolio }: PortfolioTemplateProps) {
             </div>
 
             <div className="mt-8 rounded-md border border-border bg-paper/30 p-5 text-sm leading-7 text-muted-foreground">
-              <p className="font-medium text-foreground">EmailJS integration</p>
-              <p className="mt-2">
-                {isEmailJsEnabled
-                  ? "EmailJS environment variables are configured, so this form will send directly from the site."
-                  : "EmailJS variables are not configured yet. The form gracefully falls back to a prefilled email draft."}
-              </p>
+              <p className="font-medium text-foreground">Best fit conversations</p>
+              <ul className="mt-3 space-y-3">
+                <li className="flex gap-3">
+                  <span className="mt-2 h-2 w-2 rounded-full bg-accent" />
+                  <span>Senior React Native and mobile platform roles</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="mt-2 h-2 w-2 rounded-full bg-accent" />
+                  <span>Architecture-heavy product builds and workflow design work</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="mt-2 h-2 w-2 rounded-full bg-accent" />
+                  <span>Consulting on React Native, TypeScript, and full-stack delivery</span>
+                </li>
+              </ul>
             </div>
           </motion.div>
 
@@ -652,33 +798,39 @@ function ContactSection({ portfolio }: PortfolioTemplateProps) {
               <label className="grid gap-2 text-sm text-muted-foreground">
                 <span>Name</span>
                 <input
+                  name="name"
                   value={values.name}
                   onChange={(event) => updateField("name", event.target.value)}
                   className="ring-focus min-h-12 rounded-md border border-border bg-background px-4 text-foreground placeholder:text-muted-foreground"
                   placeholder="Your name"
                   autoComplete="name"
+                  required
                 />
               </label>
 
               <label className="grid gap-2 text-sm text-muted-foreground">
                 <span>Email</span>
                 <input
+                  name="email"
                   type="email"
                   value={values.email}
                   onChange={(event) => updateField("email", event.target.value)}
                   className="ring-focus min-h-12 rounded-md border border-border bg-background px-4 text-foreground placeholder:text-muted-foreground"
                   placeholder="you@example.com"
                   autoComplete="email"
+                  required
                 />
               </label>
 
               <label className="grid gap-2 text-sm text-muted-foreground">
                 <span>Message</span>
                 <textarea
+                  name="message"
                   value={values.message}
                   onChange={(event) => updateField("message", event.target.value)}
                   className="ring-focus min-h-40 rounded-md border border-border bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground"
                   placeholder="Tell me about the role, project, or architecture challenge you are solving."
+                  required
                 />
               </label>
             </div>
@@ -687,8 +839,13 @@ function ContactSection({ portfolio }: PortfolioTemplateProps) {
               <Button type="submit" size="lg" disabled={submitState === "sending"}>
                 {submitState === "sending" ? "Sending..." : "Send Message"}
               </Button>
-              <Button href={portfolio.contact.resumeHref} variant="secondary">
-                Download Resume
+              <Button
+                href={portfolio.contact.resumeHref}
+                variant="secondary"
+                target="_blank"
+                rel="noreferrer"
+              >
+                View Resume
               </Button>
             </div>
 
@@ -696,6 +853,7 @@ function ContactSection({ portfolio }: PortfolioTemplateProps) {
               <p
                 className={`mt-4 text-sm leading-7 ${submitState === "error" ? "text-rose-400" : "text-success"}`}
                 role="status"
+                aria-live="polite"
               >
                 {statusMessage}
               </p>
@@ -714,7 +872,7 @@ function SiteFooter({ portfolio }: PortfolioTemplateProps) {
         <div>
           <p className="font-display text-lg font-medium tracking-[0.16em] text-foreground">{portfolio.name}</p>
           <p className="mt-2 text-sm text-muted-foreground">
-            {portfolio.role} • Crafted with React, TypeScript, and Tailwind CSS.
+            {portfolio.role} • React Native, TypeScript, and product-minded frontend architecture.
           </p>
         </div>
 

@@ -80,9 +80,7 @@ export function useContactForm(contactEmail: string) {
 
       window.location.assign(buildMailto(values, contactEmail))
       setSubmitState("success")
-      setStatusMessage(
-        "EmailJS is not configured yet, so your mail client will open with a prefilled message.",
-      )
+      setStatusMessage("Your mail client will open with a prefilled message.")
     } catch {
       setSubmitState("error")
       setStatusMessage("Something went wrong while sending your message. Please try again.")
