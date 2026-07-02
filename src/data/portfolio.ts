@@ -2,25 +2,33 @@ import { DOMAIN_URL, EMAIL_URL, GITHUB_URL, LINKEDIN_URL, RESUME_URL } from "@/c
 import type { PortfolioContent } from "@/types/portfolio"
 
 const siteUrl = DOMAIN_URL?.replace(/\/$/, "") ?? ""
+const normalizedEmail = EMAIL_URL?.replace(/^mailto:/i, "") ?? ""
 
 export const portfolio: PortfolioContent = {
   name: "Arjun N",
-  role: "Senior React Native Engineer",
+  role: "Senior Software Engineer | React Native",
   location: "Bangalore, India",
   seo: {
     siteName: "Arjun N Portfolio",
-    title: "Arjun N | Senior React Native Engineer",
+    title: "Arjun N | Senior Software Engineer | React Native",
     description:
-      "Senior React Native Engineer in Bangalore building React Native, React, and NestJS products across fintech, logistics, EV charging, Smart TV, and enterprise platforms.",
+      "Senior Software Engineer specializing in React Native, based in Bangalore, building cross-platform products across telecommunications, fintech, logistics, EV charging, and Smart TV platforms.",
     siteUrl,
     keywords: [
       "Arjun N",
-      "Senior React Native Engineer",
+      "Senior Software Engineer React Native",
       "React Native portfolio",
       "TypeScript engineer",
       "NestJS developer",
       "mobile architecture",
       "product engineer Bangalore",
+      "design tokens",
+      "localization i18n",
+      "multi-tenant architecture",
+      "Redux Toolkit",
+      "Firebase Crashlytics",
+      "Smart TV applications",
+      "EV charging platform",
       "React Native Bangalore",
       "mobile engineer portfolio",
     ],
@@ -47,63 +55,70 @@ export const portfolio: PortfolioContent = {
     },
     email: {
       label: "Email",
-      href: `mailto:${EMAIL_URL}`,
-      description: "Direct contact for senior roles, consulting, and product builds",
+      href: `mailto:${normalizedEmail}`,
+      description: "Direct contact for senior engineering roles, consulting, and product delivery discussions",
     },
   },
   hero: {
     headline:
-      "Arjun N builds React Native products for fintech, logistics, and enterprise platforms.",
+      "Building React Native applications across telecommunications, fintech, logistics, EV charging, and Smart TV platforms.",
     description:
-      "Senior React Native Engineer with 4+ years of experience shipping workflow-heavy mobile and full-stack products. I specialize in React Native architecture, TypeScript-driven frontend systems, and product delivery that stays reliable as complexity grows.",
-    badges: ["React Native", "TypeScript", "Mobile Architecture", "Product Delivery"],
-    featuredStack: ["React Native", "React", "TypeScript", "Redux Toolkit", "Node.js", "NestJS"],
+      "Senior Software Engineer specializing in React Native with around 5 years of experience building cross-platform applications. Hands-on experience delivering modular mobile features, design-token theming, localization, Redux-based state management, automated testing, backend integrations, and production releases.",
+    badges: ["React Native", "TypeScript", "Monorepo Development", "Mobile Architecture"],
+    featuredStack: [
+      "React Native",
+      "TypeScript",
+      "Redux Toolkit",
+      "NestJS",
+      "Firebase",
+      "Design Tokens",
+    ],
     stats: [
       { value: "4+", label: "Years shipping production software" },
-      { value: "5", label: "Product domains across mobile and web" },
-      { value: "2", label: "Core delivery environments across product teams" },
-      { value: "Senior", label: "Role with implementation and architecture ownership" },
+      { value: "5", label: "Product domains across cross-platform delivery" },
+      { value: "3", label: "Companies across product, client, and platform work" },
+      { value: "Senior", label: "Current role focused on React Native delivery and ownership" },
     ],
     proofMetrics: [
       {
         label: "React Native focus",
-        detail: "Production work across fintech, logistics, EV charging, Smart TV, and enterprise workflows.",
+        detail: "Production work across telecommunications, fintech, logistics, EV charging, Smart TV, and enterprise workflows.",
       },
       {
         label: "Architecture exposure",
-        detail: "Typed state systems, multi-tenant product flows, WebSockets, and NestJS-backed services.",
+        detail: "Monorepo development, design-token theming, localization, multi-tenant product flows, and NestJS-backed services.",
       },
       {
         label: "Leadership signal",
-        detail: "Hands-on implementation guidance, mentoring support, and delivery ownership across product tracks.",
+        detail: "Hands-on implementation guidance, mentoring support, code reviews, and production delivery ownership across projects.",
       },
     ],
   },
   about: {
     story: [
-      "I am a Senior React Native Engineer based in Bangalore with 4+ years of experience building products where release quality, workflow clarity, and reliability matter. My strongest work sits in applications that carry operational complexity: financial flows, logistics coordination, tenant-aware platforms, and enterprise systems with real user consequences.",
-      "React Native is my core specialization, but I work comfortably across React, TypeScript, Node.js, and NestJS when product delivery needs deeper ownership. I care about maintainable architecture, clear state boundaries, dependable integrations, and user journeys that stay understandable even when the business logic underneath them is complex.",
+      "I am a Senior Software Engineer based in Bangalore with around 5 years of experience specializing in React Native and building cross-platform products across telecommunications, fintech, logistics, EV charging, and Smart TV domains. My strongest work sits in applications where release quality, workflow clarity, and technical maintainability all matter in production.",
+      "React Native is my core specialization, and I work across TypeScript, React, Node.js, and NestJS when product delivery needs deeper ownership. I have hands-on experience with monorepo development, design-token theming, localization, Redux-based state management, automated testing, backend integrations, and production releases.",
     ],
     highlights: [
       {
         title: "Mobile architecture",
         description:
-          "Builds React Native applications with typed state, reusable patterns, and feature structures that remain workable as products expand.",
+          "Builds React Native applications with reusable patterns, Redux-based state management, and feature structures that remain maintainable as products expand.",
       },
       {
         title: "Product execution",
         description:
-          "Experienced in workflow-heavy product delivery where UX clarity, release confidence, and coordination across teams matter.",
+          "Experienced in workflow-heavy delivery spanning investment flows, logistics operations, tenant-aware EV charging, and telecom feature modules.",
       },
       {
         title: "Full-stack collaboration",
         description:
-          "Comfortable contributing to NestJS services, API contracts, WebSocket flows, and frontend-backend integration decisions.",
+          "Comfortable contributing to NestJS services, REST APIs, WebSocket flows, payment integrations, and frontend-backend integration decisions.",
       },
       {
-        title: "Team contribution",
+        title: "Engineering collaboration",
         description:
-          "Supports delivery through implementation ownership, architecture discussions, mentoring, and practical execution discipline.",
+          "Supports delivery through mentoring, code reviews, cross-functional collaboration, POC development, and practical execution discipline.",
       },
     ],
   },
@@ -115,17 +130,17 @@ export const portfolio: PortfolioContent = {
       {
         title: "React Native product engineering",
         summary:
-          "Built and shipped mobile experiences for fintech, logistics, EV charging, and operational products where workflow quality directly affects trust.",
+          "Built and shipped cross-platform experiences for telecommunications, fintech, logistics, EV charging, and Smart TV products where workflow quality directly affects trust.",
         evidence: [
-          "Production delivery across transaction-heavy, tracking-heavy, and role-aware user journeys.",
-          "UI architecture shaped around reusable screens, typed state, and maintainable feature boundaries.",
-          "Focus on predictable UX for products where state transitions and edge cases matter.",
+          "Production delivery across transaction-heavy, tracking-heavy, role-aware, and telecom-facing user journeys.",
+          "UI architecture shaped around reusable screens, modular feature libraries, and maintainable state boundaries.",
+          "Focus on predictable UX for products where state transitions, localization, and edge cases matter.",
         ],
       },
       {
         title: "Architecture for complex workflows",
         summary:
-          "Most of my work lives in applications that are difficult because of product complexity, not because of visual polish alone.",
+          "Most of my work lives in applications that are difficult because of product complexity, shared-platform constraints, and multi-step workflows.",
         evidence: [
           "Multi-tenant EV charging flows with shared platform behavior and tenant-specific operations.",
           "Shipment workflows with bookings, tracking, notifications, and payment-linked states.",
@@ -135,95 +150,201 @@ export const portfolio: PortfolioContent = {
       {
         title: "Backend and real-time collaboration",
         summary:
-          "I extend beyond the client layer when APIs, WebSockets, or service structure affect product delivery.",
+          "I extend beyond the client layer when APIs, payment integrations, WebSockets, or service structure affect product delivery.",
         evidence: [
           "NestJS-backed service collaboration across fintech, enterprise, and Smart TV products.",
           "WebSocket and Redis-oriented thinking in real-time content and bidding workflows.",
-          "REST API integration with typed frontend boundaries and operationally clear state management.",
+          "REST API integration with frontend state management, payment workflows, and operationally clear screen boundaries.",
         ],
       },
       {
         title: "Delivery quality and leadership",
         summary:
-          "I contribute as an engineer who can implement deeply, support team execution, and keep architecture decisions practical.",
+          "I contribute as an engineer who can implement deeply, support team execution, and keep architecture and delivery decisions practical.",
         evidence: [
-          "Senior role responsibilities across multiple active product tracks at Ecaps.",
-          "Testing awareness through Jest-driven release confidence and refactor safety.",
-          "Experience mentoring, guiding implementation, and contributing to architectural direction.",
+          "Senior role responsibilities across Ecaps and Encora with mentoring, code reviews, and shared implementation ownership.",
+          "Testing awareness through Jest-driven release confidence, debugging, and safer refactoring practices.",
+          "Experience mentoring, guiding implementation, and contributing to architecture direction across multiple product tracks.",
         ],
       },
     ],
   },
   skills: [
     {
+      category: "Mobile",
+      skills: [
+        "React Native",
+        "Android",
+        "iOS",
+        "Cross-platform Development",
+        "Smart TV Applications",
+        "Mobile UI Development",
+      ],
+    },
+    {
+      category: "Architecture & UI",
+      skills: [
+        "Monorepo Development",
+        "Modular Architecture",
+        "Component Libraries",
+        "Design Tokens",
+        "Theming",
+        "Localization (i18n)",
+        "Multi-tenant Architecture",
+      ],
+    },
+    {
       category: "Frontend",
-      skills: ["React", "React Native", "TypeScript", "JavaScript", "Redux Toolkit", "Angular"],
+      skills: [
+        "React",
+        "Angular",
+        "JavaScript",
+        "TypeScript",
+        "Redux",
+        "Redux Toolkit",
+        "Context API",
+        "HTML5",
+        "CSS3",
+      ],
     },
     {
-      category: "Backend",
-      skills: ["Node.js", "NestJS", "REST APIs", "WebSockets"],
+      category: "Backend & Integration",
+      skills: [
+        "Node.js",
+        "NestJS",
+        "REST APIs",
+        "WebSockets",
+        "Backend Integration",
+        "Database Design",
+        "Payment Integrations",
+      ],
     },
     {
-      category: "Cloud & DevOps",
-      skills: ["AWS", "Firebase", "Crashlytics", "Git"],
+      category: "Testing & Quality",
+      skills: [
+        "Jest",
+        "React Native Testing Library",
+        "Unit Testing",
+        "Integration Testing",
+        "Code Reviews",
+        "Debugging",
+        "Performance Optimization",
+      ],
     },
     {
-      category: "Testing",
-      skills: ["Jest", "React Native Testing Library", "Unit Testing", "Integration Testing"],
+      category: "Cloud & Tooling",
+      skills: [
+        "Firebase",
+        "Firebase Crashlytics",
+        "Push Notifications",
+        "Monitoring",
+        "AWS Lambda",
+        "Git",
+        "Xcode",
+        "Android Studio",
+      ],
     },
     {
-      category: "Leadership",
-      skills: ["Team Leadership", "Mentoring", "Agile", "Scrum"],
+      category: "Collaboration",
+      skills: [
+        "Technical Mentoring",
+        "Agile",
+        "Scrum",
+        "Cross-functional Collaboration",
+        "POC Development",
+        "Production Releases",
+      ],
     },
   ],
   experience: [
     {
-      company: "Experion Technologies",
-      role: "React Native Developer",
-      period: "2021 - 2024",
+      company: "Encora Inc.",
+      role: "Senior Software Engineer",
+      period: "April 2026 - Present",
       summary:
-        "Built mobile and web solutions across EV charging and talent acquisition products, with responsibility spanning React Native implementation, Redux architecture, testing foundations, and enterprise workflow delivery.",
-      scope: ["React Native", "Redux Architecture", "Firebase", "Jest", "Angular + NestJS"],
+        "Develops features for a telecommunications SIM management platform inside a large-scale React Native monorepo, contributing across shared packages, reusable UI components, modular feature libraries, theming, and localization.",
+      scope: ["React Native Monorepo", "Design Tokens", "Localization (i18n)", "Reusable UI", "Performance Updates"],
       highlights: [
-        "Implemented tenant-aware EV charging workflows with Firebase integrations and operational visibility requirements.",
-        "Established reusable Redux Toolkit patterns that made complex feature growth easier to manage and extend.",
-        "Supported release confidence through Jest-based testing foundations and safer refactoring practices.",
-        "Contributed to an Angular + NestJS talent acquisition portal with role-based enterprise flows and cross-team collaboration.",
+        "Develops production features across shared packages, reusable UI components, and modular feature libraries in a React Native monorepo.",
+        "Implemented a design-token-driven theming system for shared UI layers and strengthened multi-language support for localization readiness.",
+        "Partners with engineering, design, and product teams to ship production features, review code, and improve maintainability through refactoring and performance-focused updates.",
       ],
     },
     {
       company: "Ecaps",
-      role: "Senior Developer",
-      period: "2024 - Present",
+      role: "Senior React Native Developer",
+      period: "October 2024 - March 2026",
       summary:
-        "Contributes across fintech, logistics, Smart TV, and backend systems with hands-on ownership in implementation, architecture input, and team execution quality.",
-      scope: ["Senior Delivery", "React Native", "React", "NestJS", "WebSockets"],
+        "Led React Native delivery across multiple client projects with hands-on ownership in implementation, architecture input, mentoring, backend collaboration, and production delivery.",
+      scope: ["React Native Delivery", "NestJS Architecture", "Payment Integrations", "WebSockets", "Production Deployments"],
       highlights: [
-        "Built a gold investment platform covering investment journeys, SIP configuration, and portfolio visibility flows.",
-        "Delivered a shipment management application with booking, tracking, notification, and payment-linked workflows.",
-        "Engineered Smart TV bidding functionality with real-time communication, targeting logic, and responsive content delivery.",
-        "Supported NestJS backend architecture, implementation planning, and day-to-day technical guidance across multiple product tracks.",
+        "Led React Native delivery across multiple client projects, mentoring developers and reinforcing engineering best practices through technical guidance and code reviews.",
+        "Designed NestJS backend architecture and supporting database models for fintech workflows, enabling secure API integrations and reliable data exchange with external systems.",
+        "Built gold investment, logistics, and Smart TV products spanning payment-backed workflows, booking and tracking flows, WebSocket-driven bidding, and remote-control navigation.",
+        "Owned production deployments and issue resolution across multiple applications while supporting stable releases and performance troubleshooting.",
+      ],
+    },
+    {
+      company: "Experion Technologies",
+      role: "Software Engineer (Promoted from Associate Software Engineer)",
+      period: "December 2021 - October 2024",
+      summary:
+        "Delivered React Native, Angular, and NestJS solutions across EV charging and talent acquisition products, with responsibility spanning multi-tenant architecture, Redux patterns, testing foundations, and Firebase-backed production workflows.",
+      scope: ["React Native", "Multi-tenant Architecture", "Redux", "Jest", "Firebase", "Angular + NestJS"],
+      highlights: [
+        "Delivered React Native features for production applications, translating complex product requirements into maintainable mobile experiences.",
+        "Designed and implemented multi-tenant architecture for the Android experience of an EV charging platform, supporting client-specific configurations within a shared application foundation.",
+        "Built reusable components and Redux state management patterns to improve consistency, maintainability, and development efficiency across features.",
+        "Established a Jest-based testing setup, built an Angular + NestJS talent acquisition portal, and integrated Firebase Crashlytics and push notifications for monitoring and engagement.",
       ],
     },
   ],
   projects: [
     {
-      title: "Gold Investment Fintech Platform",
+      title: "Telecommunications SIM Management Platform",
+      summary:
+        "Telecommunications product built within a React Native monorepo using shared packages, reusable UI components, and modular feature libraries.",
+      problem:
+        "The platform needed production-ready mobile features that could scale across shared modules while keeping design consistency and localization support aligned across teams.",
+      solution:
+        "I contribute feature development inside the monorepo, improve shared UI layers, and support localization and maintainability work so the product can grow without duplicating feature logic.",
+      architecture:
+        "Large-scale React Native monorepo with shared packages, reusable UI components, modular feature libraries, design-token-driven theming, and multi-language support.",
+      technologies: ["React Native", "TypeScript", "Monorepo Development", "Design Tokens", "Localization (i18n)"],
+      challenges: [
+        "Maintaining consistency across shared UI layers and modular feature libraries as the platform evolves.",
+        "Improving localization readiness without fragmenting feature ownership across the monorepo.",
+      ],
+      architectureDecisions: [
+        "Used design-token-driven theming to keep shared UI components and feature modules visually consistent.",
+        "Worked within modular feature boundaries and reusable packages to reduce duplication and improve maintainability.",
+      ],
+      impact: [
+        "Improved production-readiness for shared UI layers and multilingual feature delivery.",
+        "Supported maintainability through refactoring and performance-focused updates across mobile modules.",
+      ],
+      lessons: [
+        "Shared-platform products benefit from strong UI system boundaries and reusable feature modules.",
+        "Localization is easier to scale when it is built into the platform architecture instead of added late.",
+      ],
+    },
+    {
+      title: "Gold Investment Fintech Application",
       summary:
         "Digital gold investment product covering investment journeys, SIP setup, portfolio visibility, and secure payment interactions.",
       problem:
         "The product needed to make investment actions, recurring plans, and portfolio awareness feel trustworthy and understandable for users managing financial decisions on mobile.",
       solution:
-        "I helped build React Native and React experiences that structured transaction-heavy workflows into reusable screens, typed state, and clear action boundaries for investment, SIP, and portfolio features.",
+        "I helped build React Native experiences that structured transaction-heavy workflows into reusable screens, typed state, and clear action boundaries for investment, SIP, and portfolio features.",
       architecture:
-        "React Native and React interfaces backed by secure APIs, modular state management, and reusable transaction flows designed for consistent financial UX.",
-      technologies: ["React Native", "React", "TypeScript", "Redux Toolkit", "React-Query"],
+        "React Native interfaces backed by secure APIs, modular state management, and reusable transaction flows designed for consistent financial UX.",
+      technologies: ["React Native", "TypeScript", "Payment Integrations", "Portfolio Management", "SIP Workflows"],
       challenges: [
         "Designing recurring investment flows that stayed understandable without hiding important financial detail.",
         "Maintaining responsive transaction UX while keeping data integrity and trust cues front and center.",
       ],
       architectureDecisions: [
-        "Used typed state and reusable transaction patterns so investment, SIP, and portfolio features could evolve without duplicating logic.",
+        "Used reusable transaction patterns so investment, SIP, and portfolio features could evolve without duplicating logic.",
         "Separated portfolio visibility concerns from transaction initiation flows to keep high-risk interactions clearer to users.",
       ],
       impact: [
@@ -236,7 +357,7 @@ export const portfolio: PortfolioContent = {
       ],
     },
     {
-      title: "Shipment Logistics Platform",
+      title: "Shipment Logistics Mobile Application",
       summary:
         "Operations-focused logistics product supporting bookings, shipment visibility, notifications, and payment-linked workflows.",
       problem:
@@ -245,7 +366,7 @@ export const portfolio: PortfolioContent = {
         "I delivered workflow-oriented screens and state handling that made booking, tracking, and notification flows easier to follow across shipment lifecycles.",
       architecture:
         "Workflow-oriented frontend architecture with modular forms, status tracking, and API integrations tailored for operational clarity.",
-      technologies: ["React Native", "TypeScript", "Redux Toolkit", "REST APIs", "React-Query"],
+      technologies: ["React Native", "TypeScript", "Redux Toolkit", "Push Notifications", "REST APIs"],
       challenges: [
         "Handling multi-step booking flows without overwhelming users who care more about task completion than interface novelty.",
         "Synchronizing delivery states, notifications, and payment touchpoints consistently across screens.",
@@ -264,7 +385,7 @@ export const portfolio: PortfolioContent = {
       ],
     },
     {
-      title: "Smart TV Dynamic Bidding Platform",
+      title: "Smart TV Dynamic Content Bidding Platform",
       summary:
         "Smart TV advertising and bidding solution with real-time content delivery, targeting logic, and location-aware decision making.",
       problem:
@@ -273,7 +394,7 @@ export const portfolio: PortfolioContent = {
         "I contributed to the frontend and service integration patterns that connected real-time events, targeting logic, and content delivery into a dependable bidding experience.",
       architecture:
         "Real-time event-driven architecture using WebSockets, content matching strategies, and Redis-aware backend caching.",
-      technologies: ["React", "TypeScript", "WebSockets", "Redis"],
+      technologies: ["React Native", "TypeScript", "WebSockets", "Redis", "Smart TV"],
       challenges: [
         "Balancing bidding responsiveness with content relevance and platform reliability.",
         "Designing flows that could support dynamic matching without turning real-time behavior into operational chaos.",
@@ -292,7 +413,7 @@ export const portfolio: PortfolioContent = {
       ],
     },
     {
-      title: "EV Charging Platform",
+      title: "Electric Vehicle Charging Platform",
       summary:
         "EV charging ecosystem for station monitoring, tenant-aware operations, and connected device visibility.",
       problem:
@@ -301,7 +422,7 @@ export const portfolio: PortfolioContent = {
         "I worked on the React Native application architecture, Firebase-backed workflows, and Redux patterns needed to keep charging operations visible and tenant-aware.",
       architecture:
         "Multi-tenant application architecture integrating Firebase services, structured Redux state, and monitoring features for charging operations.",
-      technologies: ["React Native", "Redux Toolkit", "Firebase", "TypeScript"],
+      technologies: ["React Native", "Redux Toolkit", "Firebase", "TypeScript", "Multi-tenant Architecture"],
       challenges: [
         "Supporting tenant-aware behavior without compromising maintainability.",
         "Managing real-time operational visibility and state consistency across charging workflows.",
@@ -329,7 +450,7 @@ export const portfolio: PortfolioContent = {
         "I contributed to Angular and NestJS implementation that supported role-aware workflows, modular business logic, and maintainable permission boundaries.",
       architecture:
         "Angular frontend paired with NestJS backend services to support role-based access control, modular business logic, and enterprise extensibility.",
-      technologies: ["Angular", "NestJS", "Node.js", "Role-Based Access Control"],
+      technologies: ["Angular", "NestJS", "Node.js", "REST APIs", "Role-Based Access Control"],
       challenges: [
         "Coordinating frontend and backend responsibilities across a role-heavy enterprise system.",
         "Keeping workflows extensible while enforcing permissions and data access constraints.",
@@ -352,7 +473,7 @@ export const portfolio: PortfolioContent = {
     title: "Award of Excellence",
     organization: "Experion Technologies",
     summary:
-      "Recognized for delivery consistency, technical contribution, and the ability to support both product outcomes and team execution.",
+      "Received for consistently exceeding expectations and contributing meaningfully to project delivery at Experion Technologies.",
     pillars: [
       {
         title: "Leadership",
@@ -406,10 +527,10 @@ export const portfolio: PortfolioContent = {
     },
   ],
   contact: {
-    headline: "Open to senior React Native roles, product engineering work, and architecture-led conversations.",
+    headline: "Open to senior software engineering and React Native opportunities.",
     summary:
-      "If you are hiring for a product where React Native architecture, workflow-heavy UX, and reliable delivery matter, I would be glad to talk. Reach out for full-time roles, consulting, or product builds.",
-    email: EMAIL_URL,
+      "If you are hiring for cross-platform product work involving React Native, mobile architecture, backend integrations, or production delivery, I would be glad to talk. Reach out for full-time roles, consulting, or product builds.",
+    email: normalizedEmail,
     resumeHref: RESUME_URL,
   },
 }
