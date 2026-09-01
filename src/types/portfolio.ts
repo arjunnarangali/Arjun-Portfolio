@@ -9,21 +9,6 @@ export interface SocialLink {
   description: string
 }
 
-export interface StatItem {
-  value: string
-  label: string
-}
-
-export interface ProofMetric {
-  label: string
-  detail: string
-}
-
-export interface HighlightItem {
-  title: string
-  description: string
-}
-
 export interface SkillCategory {
   category: string
   skills: string[]
@@ -34,41 +19,26 @@ export interface ExperienceItem {
   role: string
   period: string
   summary: string
-  scope: string[]
   highlights: string[]
+}
+
+export interface ProjectLink {
+  label: string
+  href: string
 }
 
 export interface ProjectItem {
   title: string
+  period: string
   summary: string
+  role: string
   problem: string
   solution: string
-  architecture: string
+  engineering: string
+  impact: string
   technologies: string[]
-  challenges: string[]
-  architectureDecisions: string[]
-  impact: string[]
-  lessons: string[]
-}
-
-export interface CredibilityItem {
-  title: string
-  summary: string
-  evidence: string[]
-}
-
-export interface BlogPost {
-  title: string
-  summary: string
-  readTime: string
-  tags: string[]
-}
-
-export interface Achievement {
-  title: string
-  organization: string
-  summary: string
-  pillars: HighlightItem[]
+  links?: ProjectLink[]
+  confidential?: boolean
 }
 
 export interface PortfolioContent {
@@ -80,7 +50,6 @@ export interface PortfolioContent {
     title: string
     description: string
     siteUrl: string
-    keywords: string[]
   }
   navigation: NavItem[]
   socials: {
@@ -91,25 +60,17 @@ export interface PortfolioContent {
   hero: {
     headline: string
     description: string
-    badges: string[]
-    featuredStack: string[]
-    stats: StatItem[]
-    proofMetrics: ProofMetric[]
+    stack: string[]
   }
-  about: {
-    story: string[]
-    highlights: HighlightItem[]
-  }
-  credibility: {
-    title: string
-    description: string
-    items: CredibilityItem[]
-  }
+  about: string[]
   skills: SkillCategory[]
   experience: ExperienceItem[]
   projects: ProjectItem[]
-  achievement: Achievement
-  blogPosts: BlogPost[]
+  achievement: {
+    title: string
+    organization: string
+    summary: string
+  }
   contact: {
     headline: string
     summary: string
