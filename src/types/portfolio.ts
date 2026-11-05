@@ -9,21 +9,6 @@ export interface SocialLink {
   description: string
 }
 
-export interface StatItem {
-  value: string
-  label: string
-}
-
-export interface ProofMetric {
-  label: string
-  detail: string
-}
-
-export interface HighlightItem {
-  title: string
-  description: string
-}
-
 export interface SkillCategory {
   category: string
   skills: string[]
@@ -33,28 +18,27 @@ export interface ExperienceItem {
   company: string
   role: string
   period: string
+  location: string
   summary: string
-  scope: string[]
   highlights: string[]
+}
+
+export interface NpmPackageItem {
+  name: string
+  summary: string
+  href?: string
 }
 
 export interface ProjectItem {
   title: string
   summary: string
-  problem: string
-  solution: string
-  architecture: string
+  links?: { label: string; href: string }[]
   technologies: string[]
-  challenges: string[]
-  architectureDecisions: string[]
-  impact: string[]
-  lessons: string[]
-}
-
-export interface CredibilityItem {
-  title: string
-  summary: string
-  evidence: string[]
+  caseStudy?: {
+    contribution: string
+    engineeringDecision: string
+    outcome: string
+  }
 }
 
 export interface BlogPost {
@@ -68,7 +52,6 @@ export interface Achievement {
   title: string
   organization: string
   summary: string
-  pillars: HighlightItem[]
 }
 
 export interface PortfolioContent {
@@ -92,22 +75,16 @@ export interface PortfolioContent {
     headline: string
     description: string
     badges: string[]
-    featuredStack: string[]
-    stats: StatItem[]
-    proofMetrics: ProofMetric[]
   }
   about: {
-    story: string[]
-    highlights: HighlightItem[]
-  }
-  credibility: {
-    title: string
-    description: string
-    items: CredibilityItem[]
+    story: string
   }
   skills: SkillCategory[]
+  productDomains: string[]
   experience: ExperienceItem[]
   projects: ProjectItem[]
+  npmPackages: NpmPackageItem[]
+  npmPackagesUrl?: string
   achievement: Achievement
   blogPosts: BlogPost[]
   contact: {

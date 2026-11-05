@@ -4,20 +4,19 @@ import {
   HiArrowDownTray,
   HiArrowRight,
   HiBars3,
-  HiCodeBracket,
   HiEnvelope,
-  HiLink,
-  HiSparkles,
   HiXMark,
 } from "react-icons/hi2"
+import { FaGithub, FaLinkedin } from "react-icons/fa6"
+import { SiNpm } from "react-icons/si"
 import { Button } from "@/components/atoms/button"
 import { SectionHeading } from "@/components/molecules/section-heading"
 import { ThemeToggle } from "@/components/molecules/theme-toggle"
 import { useContactForm } from "@/hooks/use-contact-form"
 import { fadeInUp, staggerContainer } from "@/lib/motion"
 import type {
-  CredibilityItem,
   ExperienceItem,
+  NpmPackageItem,
   PortfolioContent,
   ProjectItem,
   SkillCategory,
@@ -29,7 +28,7 @@ interface PortfolioTemplateProps {
 
 export function PortfolioTemplate({ portfolio }: PortfolioTemplateProps) {
   return (
-    <div className="relative min-h-screen overflow-hidden">
+    <div className="relative min-h-screen overflow-x-clip">
       <a
         href="#content"
         className="ring-focus absolute left-4 top-4 z-[60] -translate-y-20 rounded-md border border-accent bg-background px-4 py-2 text-sm font-medium uppercase tracking-[0.14em] text-accent transition focus:translate-y-0"
@@ -42,10 +41,10 @@ export function PortfolioTemplate({ portfolio }: PortfolioTemplateProps) {
       <main id="content">
         <HeroSection portfolio={portfolio} />
         <AboutSection portfolio={portfolio} />
-        <CredibilitySection portfolio={portfolio} />
-        <SkillsSection skills={portfolio.skills} />
+        <SkillsSection skills={portfolio.skills} productDomains={portfolio.productDomains} />
         <ExperienceSection experience={portfolio.experience} />
         <ProjectsSection projects={portfolio.projects} />
+        <NpmPackagesSection packages={portfolio.npmPackages} />
         <AchievementsSection portfolio={portfolio} />
         {/* <BlogSection posts={portfolio.blogPosts} /> */}
         <ContactSection portfolio={portfolio} />
@@ -81,11 +80,8 @@ function SiteHeader({ portfolio }: PortfolioTemplateProps) {
           ))}
         </nav>
 
-        <div className="hidden items-center gap-3 lg:flex">
+        <div className="hidden items-center lg:flex">
           <ThemeToggle />
-          <Button href="#contact" variant="secondary" size="sm">
-            Contact Me
-          </Button>
         </div>
 
         <div className="flex items-center gap-2 lg:hidden">
@@ -116,9 +112,6 @@ function SiteHeader({ portfolio }: PortfolioTemplateProps) {
               {item.label}
             </a>
           ))}
-          <Button href="#contact" variant="secondary" onClick={() => setIsMenuOpen(false)}>
-            Contact Me
-          </Button>
         </nav>
       ) : null}
     </header>
@@ -126,7 +119,11 @@ function SiteHeader({ portfolio }: PortfolioTemplateProps) {
 }
 
 function HeroSection({ portfolio }: PortfolioTemplateProps) {
-  const recruiterLinks = [portfolio.socials.linkedin, portfolio.socials.github]
+  const recruiterLinks = [
+    { label: portfolio.socials.linkedin.label, href: portfolio.socials.linkedin.href },
+    { label: portfolio.socials.github.label, href: portfolio.socials.github.href },
+    ...(portfolio.npmPackagesUrl ? [{ label: "npm packages", href: portfolio.npmPackagesUrl }] : []),
+  ]
 
   return (
     <section id="hero" className="relative overflow-hidden border-b border-border pb-20 pt-16 md:pb-28 md:pt-20">
@@ -134,7 +131,7 @@ function HeroSection({ portfolio }: PortfolioTemplateProps) {
 
       <div className="section-shell relative">
         <motion.div
-          className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)]"
+          className="max-w-5xl"
           initial="hidden"
           animate="visible"
           variants={staggerContainer}
@@ -178,26 +175,6 @@ function HeroSection({ portfolio }: PortfolioTemplateProps) {
               >
                 View Resume
               </Button>
-              <Button href="#contact" variant="ghost">
-                Contact Me
-              </Button>
-            </div>
-
-            <div className="mt-8 grid gap-4 border-y border-border py-5 md:grid-cols-3">
-              {portfolio.hero.proofMetrics.map((metric) => (
-                <div key={metric.label}>
-                  <p className="editorial-label">{metric.label}</p>
-                  <p className="mt-2 text-sm leading-7 text-muted-foreground">{metric.detail}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-10 flex flex-wrap gap-3 text-sm text-muted-foreground">
-              {portfolio.hero.featuredStack.map((item) => (
-                <span key={item} className="rounded-sm border-b border-border/80 px-1 py-1.5">
-                  {item}
-                </span>
-              ))}
             </div>
 
             <div className="mt-8 flex flex-wrap gap-5 text-sm text-muted-foreground">
@@ -215,41 +192,6 @@ function HeroSection({ portfolio }: PortfolioTemplateProps) {
               ))}
             </div>
           </motion.div>
-
-          <motion.aside variants={fadeInUp} className="surface-panel p-6 md:p-8">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <p className="editorial-label">Engineering snapshot</p>
-                <h2 className="mt-3 text-2xl font-semibold text-foreground">
-                  Senior-level product delivery across React Native, frontend systems, and backend collaboration.
-                </h2>
-              </div>
-              <div className="rounded-sm border border-accent/30 px-3 py-2 text-xs uppercase tracking-[0.18em] text-accent">
-                Bangalore, India
-              </div>
-            </div>
-
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              {portfolio.hero.stats.map((stat, index) => (
-                <div key={stat.label} className="rounded-md border border-border bg-paper/50 p-5">
-                  <div className="editorial-label">{String(index + 1).padStart(2, "0")}</div>
-                  <div className="text-2xl font-semibold text-foreground">{stat.value}</div>
-                  <p className="mt-2 text-sm leading-6 text-muted-foreground">{stat.label}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-8 rounded-md border border-border bg-paper/50 p-5">
-              <p className="text-sm font-medium text-foreground">Focus areas recruiters can scan quickly</p>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {["React Native", "Architecture", "Workflow UX", "Delivery Leadership"].map((item) => (
-                  <span key={item} className="rounded-sm border border-accent/25 px-3 py-1 text-sm text-accent">
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </motion.aside>
         </motion.div>
       </div>
     </section>
@@ -261,120 +203,38 @@ function AboutSection({ portfolio }: PortfolioTemplateProps) {
     <section id="about" className="section-divider py-20 md:py-28">
       <div className="section-shell">
         <SectionHeading
-          eyebrow="About Me"
-          title="Senior React Native delivery grounded in architecture clarity and product execution."
-          description="I work best on products where state complexity, operational workflows, and user trust all need to hold up in production."
+          eyebrow="About"
+          title="Thoughtful, collaborative, and hands-on."
+          description={portfolio.about.story}
         />
-
-        <motion.div
-          className="mt-12 grid gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.95fr)]"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={staggerContainer}
-        >
-          <motion.div variants={fadeInUp} className="surface-panel p-8 md:p-10">
-            <div className="space-y-5 text-base leading-8 text-muted-foreground md:text-lg">
-              {portfolio.about.story.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
-            </div>
-          </motion.div>
-
-          <div className="grid gap-6 sm:grid-cols-2">
-            {portfolio.about.highlights.map((highlight) => (
-              <motion.div key={highlight.title} variants={fadeInUp} className="surface-panel p-6 md:p-7">
-                <h3 className="text-lg font-semibold text-foreground">{highlight.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-muted-foreground">{highlight.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
       </div>
     </section>
   )
 }
 
-function CredibilitySection({ portfolio }: PortfolioTemplateProps) {
-  return (
-    <section id="proof" className="section-divider py-20 md:py-28">
-      <div className="section-shell">
-        <SectionHeading
-          eyebrow="Engineering Proof"
-          title={portfolio.credibility.title}
-          description={portfolio.credibility.description}
-        />
-
-        <motion.div
-          className="mt-12 grid gap-6 xl:grid-cols-2"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={staggerContainer}
-        >
-          {portfolio.credibility.items.map((item) => (
-            <CredibilityCard key={item.title} item={item} />
-          ))}
-        </motion.div>
-      </div>
-    </section>
-  )
-}
-
-function CredibilityCard({ item }: { item: CredibilityItem }) {
-  return (
-    <motion.article variants={fadeInUp} className="surface-panel p-7 md:p-8">
-      <h3 className="text-2xl font-semibold text-foreground">{item.title}</h3>
-      <p className="mt-4 text-sm leading-7 text-muted-foreground">{item.summary}</p>
-
-      <ul className="mt-6 space-y-3 text-sm leading-7 text-muted-foreground">
-        {item.evidence.map((evidencePoint) => (
-          <li key={evidencePoint} className="flex gap-3">
-            <span className="mt-2 h-2 w-2 rounded-full bg-accent" />
-            <span>{evidencePoint}</span>
-          </li>
-        ))}
-      </ul>
-    </motion.article>
-  )
-}
-
-function SkillsSection({ skills }: { skills: SkillCategory[] }) {
+function SkillsSection({ skills, productDomains }: { skills: SkillCategory[]; productDomains: string[] }) {
   return (
     <section id="skills" className="section-divider py-20 md:py-28">
       <div className="section-shell">
         <SectionHeading
-          eyebrow="Skills"
-          title="A stack shaped by real product delivery rather than broad buzzword collection."
-          description="These are the tools and practices that show up repeatedly in the mobile, frontend, backend, and delivery work I do most often."
+          eyebrow="Technical Skills"
+          title="A focused stack shaped by shipped products."
+          description="Technologies used across mobile, frontend, backend integration, testing, and delivery."
         />
 
-        <motion.div
-          className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={staggerContainer}
-        >
+        <div className="mt-12 grid gap-x-8 md:grid-cols-2 xl:grid-cols-3">
           {skills.map((category) => (
-            <motion.article key={category.category} variants={fadeInUp} className="surface-panel p-6">
-              <div className="flex items-center justify-between gap-4">
-                <h3 className="text-xl font-semibold text-foreground">{category.category}</h3>
-                <span className="editorial-label">{category.skills.length} skills</span>
-              </div>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {category.skills.map((skill) => (
-                  <span
-                    key={skill}
-                    className="rounded-sm border border-border bg-paper/40 px-3 py-2 text-sm text-foreground"
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </motion.article>
+            <div key={category.category} className="border-t border-border py-5">
+              <h3 className="text-lg font-semibold text-foreground">{category.category}</h3>
+              <p className="mt-3 text-base leading-7 text-muted-foreground">{category.skills.join(" · ")}</p>
+            </div>
           ))}
-        </motion.div>
+        </div>
+
+        <div className="mt-4 grid gap-3 border-y border-border py-5 md:grid-cols-[minmax(220px,0.85fr)_minmax(0,2.15fr)] md:gap-12">
+          <h3 className="text-lg font-semibold text-foreground">Product domains</h3>
+          <p className="text-base leading-7 text-muted-foreground">{productDomains.join(" · ")}</p>
+        </div>
       </div>
     </section>
   )
@@ -386,209 +246,33 @@ function ExperienceSection({ experience }: { experience: ExperienceItem[] }) {
       <div className="section-shell">
         <SectionHeading
           eyebrow="Experience"
-          title="A delivery track record across mobile products, enterprise workflows, and architecture-heavy implementation."
-          description="Each role below highlights the kind of ownership I carried, the systems I worked on, and the technical context behind that work."
+          title="Experience across product teams and client engagements."
+          description="Ownership spanning mobile implementation, architecture, testing, and production delivery."
         />
 
-        <motion.div
-          className="relative mt-12 space-y-12 before:absolute before:left-4 before:top-0 before:h-full before:w-px before:bg-border md:before:left-1/2 md:before:-translate-x-1/2"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.15 }}
-          variants={staggerContainer}
-        >
-          {experience.map((item, index) => (
-            <motion.article
-              key={`${item.company}-${index}`}
-              variants={fadeInUp}
-              className="relative grid md:grid-cols-2 md:gap-12"
+        <div className="mt-12 divide-y divide-border border-y border-border">
+          {experience.map((item) => (
+            <article
+              key={`${item.company}-${item.period}`}
+              className="grid gap-4 py-8 md:grid-cols-[minmax(220px,0.85fr)_minmax(0,2.15fr)] md:gap-12 md:py-9"
             >
-              <div
-                className="absolute left-4 top-8 h-4 w-4 rounded-full border-2 border-background bg-accent md:left-1/2 md:-translate-x-1/2"
-              />
-
-              {index % 2 === 0 ? (
-                <>
-                  <div className="md:pr-12">
-                    <div className="surface-panel p-7 md:p-8">
-                      <div className="flex flex-wrap items-center justify-between gap-3">
-                        <div>
-                          <p className="text-sm uppercase tracking-[0.22em] text-accent">
-                            {item.period}
-                          </p>
-
-                          <h3 className="mt-2 text-2xl font-semibold text-foreground">
-                            {item.company}
-                          </h3>
-
-                          <p className="mt-1 text-sm text-muted-foreground">
-                            {item.role}
-                          </p>
-                        </div>
-
-                        <span className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-accent/30 text-accent">
-                          {String(index + 1).padStart(2, "0")}
-                        </span>
-                      </div>
-
-                      <p className="mt-5 text-sm leading-7 text-muted-foreground">
-                        {item.summary}
-                      </p>
-
-                      <div className="mt-5 flex flex-wrap gap-2">
-                        {item.scope.map((scopeItem) => (
-                          <span
-                            key={scopeItem}
-                            className="rounded-sm border border-border bg-paper/40 px-3 py-1.5 text-xs uppercase tracking-[0.14em] text-muted-foreground"
-                          >
-                            {scopeItem}
-                          </span>
-                        ))}
-                      </div>
-
-                      <ul className="mt-6 space-y-3 text-sm leading-7 text-muted-foreground">
-                        {item.highlights.map((highlight) => (
-                          <li key={highlight} className="flex gap-3">
-                            <span className="mt-2 h-2 w-2 rounded-full bg-accent" />
-                            <span>{highlight}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div />
-                </>
-              ) : (
-                <>
-                  <div />
-
-                  <div className="md:pl-12">
-                    <div className="surface-panel p-7 md:p-8">
-                      <div className="flex flex-wrap items-center justify-between gap-3">
-                        <div>
-                          <p className="text-sm uppercase tracking-[0.22em] text-accent">
-                            {item.period}
-                          </p>
-
-                          <h3 className="mt-2 text-2xl font-semibold text-foreground">
-                            {item.company}
-                          </h3>
-
-                          <p className="mt-1 text-sm text-muted-foreground">
-                            {item.role}
-                          </p>
-                        </div>
-
-                        <span className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-accent/30 text-accent">
-                          {String(index + 1).padStart(2, "0")}
-                        </span>
-                      </div>
-
-                      <p className="mt-5 text-sm leading-7 text-muted-foreground">
-                        {item.summary}
-                      </p>
-
-                      <div className="mt-5 flex flex-wrap gap-2">
-                        {item.scope.map((scopeItem) => (
-                          <span
-                            key={scopeItem}
-                            className="rounded-sm border border-border bg-paper/40 px-3 py-1.5 text-xs uppercase tracking-[0.14em] text-muted-foreground"
-                          >
-                            {scopeItem}
-                          </span>
-                        ))}
-                      </div>
-
-                      <ul className="mt-6 space-y-3 text-sm leading-7 text-muted-foreground">
-                        {item.highlights.map((highlight) => (
-                          <li key={highlight} className="flex gap-3">
-                            <span className="mt-2 h-2 w-2 rounded-full bg-accent" />
-                            <span>{highlight}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                </>
-              )}
-            </motion.article>
-          ))}
-        </motion.div>
-      </div>
-    </section>
-  )
-}
-
-function ProjectsSection({ projects }: { projects: ProjectItem[] }) {
-  return (
-    <section id="projects" className="section-divider py-20 md:py-28">
-      <div className="section-shell">
-        <SectionHeading
-          eyebrow="Featured Projects"
-          title="Selected case studies showing the kind of product and architecture work I have shipped."
-          description="Every project is framed around the problem, the system shape, the technical decisions involved, and the product value the work needed to unlock."
-        />
-
-        <div className="mt-12 space-y-8">
-          {projects.map((project) => (
-            <article key={project.title} className="surface-panel flex h-full flex-col p-7 md:p-8">
-              <div className="grid gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(260px,1.1fr)]">
-                <div>
-                  <p className="editorial-label">Case Study</p>
-                  <h3 className="mt-3 text-2xl font-semibold text-foreground md:text-3xl">{project.title}</h3>
-                  <p className="mt-4 text-base leading-8 text-muted-foreground">{project.summary}</p>
-
-                  <div className="mt-6 rounded-md border border-border bg-paper/40 p-5">
-                    <p className="text-sm font-medium text-foreground">Problem</p>
-                    <p className="mt-2 text-sm leading-7 text-muted-foreground">{project.problem}</p>
-                  </div>
-
-                  <div className="mt-6 rounded-md border border-border bg-paper/40 p-5">
-                    <p className="text-sm font-medium text-foreground">Solution</p>
-                    <p className="mt-2 text-sm leading-7 text-muted-foreground">{project.solution}</p>
-                  </div>
-                </div>
-
-                <div className="space-y-6">
-                  <div className="rounded-md border border-border bg-paper/40 p-5">
-                    <p className="text-sm font-medium text-foreground">Architecture</p>
-                    <p className="mt-2 text-sm leading-7 text-muted-foreground">{project.architecture}</p>
-                  </div>
-
-                  <div>
-                    <p className="text-sm font-medium text-foreground">Technology stack</p>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {project.technologies.map((technology) => (
-                        <span
-                          key={technology}
-                          className="rounded-sm border border-border bg-paper/30 px-3 py-1.5 text-sm text-foreground"
-                        >
-                          {technology}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
+              <div>
+                <p className="text-lg font-semibold text-foreground">{item.company}</p>
+                <p className="mt-1 text-sm text-muted-foreground">{item.period}</p>
+                <p className="mt-1 text-sm text-muted-foreground">{item.location}</p>
               </div>
 
-              <div className="mt-8 grid gap-6 lg:grid-cols-2">
-                <ProjectBulletList
-                  title="Technical challenges"
-                  items={project.challenges}
-                  dotClassName="bg-accent/60"
-                />
-                <ProjectBulletList
-                  title="Architecture decisions"
-                  items={project.architectureDecisions}
-                  dotClassName="bg-accent"
-                />
-                <ProjectBulletList title="Impact" items={project.impact} dotClassName="bg-success" />
-                <ProjectBulletList
-                  title="Lessons learned"
-                  items={project.lessons}
-                  dotClassName="bg-foreground/70"
-                />
+              <div>
+                <h3 className="text-2xl font-semibold text-foreground md:text-3xl">{item.role}</h3>
+                <p className="mt-3 text-base leading-7 text-muted-foreground">{item.summary}</p>
+                <ul className="mt-5 space-y-3 text-base leading-7 text-muted-foreground">
+                  {item.highlights.map((highlight) => (
+                    <li key={highlight} className="flex gap-3">
+                      <span className="mt-[0.7rem] h-2 w-2 shrink-0 rounded-full bg-accent" aria-hidden="true" />
+                      <span>{highlight}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </article>
           ))}
@@ -598,73 +282,178 @@ function ProjectsSection({ projects }: { projects: ProjectItem[] }) {
   )
 }
 
-function ProjectBulletList({
+function ProjectsSection({ projects }: { projects: ProjectItem[] }) {
+  const featuredProjects = projects.filter(
+    (project): project is ProjectItem & { caseStudy: NonNullable<ProjectItem["caseStudy"]> } => Boolean(project.caseStudy),
+  )
+  const additionalProjects = projects.filter((project) => !project.caseStudy)
+
+  return (
+    <section id="projects" className="section-divider py-20 md:py-28">
+      <div className="section-shell">
+        <SectionHeading
+          eyebrow="Selected Work"
+          title="A few projects that show how I approach mobile product engineering."
+          description="Featured studies focus on my contribution, the key engineering decision, and what the work delivered. Other projects are summarized for a quick scan."
+        />
+
+        <div className="mt-12 space-y-6">
+          {featuredProjects.map((project) => (
+            <article key={project.title} className="surface-panel p-6 md:p-8">
+              <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
+                <div className="max-w-3xl">
+                  <p className="editorial-label">Featured case study</p>
+                  <h3 className="mt-3 text-2xl font-semibold text-foreground md:text-3xl">{project.title}</h3>
+                  <p className="mt-3 text-base leading-7 text-muted-foreground">{project.summary}</p>
+                </div>
+                {project.links?.length ? (
+                  <div className="flex shrink-0 flex-wrap gap-x-5 gap-y-3 md:pt-1">
+                    {project.links.map((link) => (
+                      <a
+                        key={link.href}
+                        href={link.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ring-focus inline-flex items-center gap-2 border-b border-border pb-1 text-sm text-accent hover:border-accent/60"
+                      >
+                        {link.label}
+                        <HiArrowRight className="h-4 w-4" aria-hidden="true" />
+                      </a>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
+
+              <div className="mt-5 flex flex-wrap gap-2" aria-label={`${project.title} technology stack`}>
+                {project.technologies.map((technology) => (
+                  <span
+                    key={technology}
+                    className="rounded-sm border border-border bg-paper/30 px-3 py-1.5 text-sm text-foreground"
+                  >
+                    {technology}
+                  </span>
+                ))}
+              </div>
+
+              <dl className="mt-6 grid gap-4 md:grid-cols-3">
+                <ProjectCaseStudyDetail title="My contribution" description={project.caseStudy.contribution} />
+                <ProjectCaseStudyDetail title="Key engineering decision" description={project.caseStudy.engineeringDecision} />
+                <ProjectCaseStudyDetail title="Outcome" description={project.caseStudy.outcome} />
+              </dl>
+            </article>
+          ))}
+        </div>
+
+        {additionalProjects.length ? (
+          <div className="mt-12">
+            <h3 className="text-xl font-semibold text-foreground">More projects</h3>
+            <div className="mt-5 grid gap-4 md:grid-cols-2">
+              {additionalProjects.map((project) => (
+                <article key={project.title} className="surface-panel p-5 md:p-6">
+                  <h4 className="text-lg font-semibold text-foreground">{project.title}</h4>
+                  <p className="mt-2 text-sm leading-6 text-muted-foreground">{project.summary}</p>
+                  <div className="mt-4 flex flex-wrap gap-2" aria-label={`${project.title} technology stack`}>
+                    {project.technologies.map((technology) => (
+                      <span
+                        key={technology}
+                        className="rounded-sm border border-border bg-paper/30 px-2.5 py-1 text-xs text-foreground"
+                      >
+                        {technology}
+                      </span>
+                    ))}
+                  </div>
+                  {project.links?.length ? (
+                    <div className="mt-4 flex flex-wrap gap-x-5 gap-y-3">
+                      {project.links.map((link) => (
+                        <a
+                          key={link.href}
+                          href={link.href}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="ring-focus inline-flex items-center gap-2 border-b border-border pb-1 text-sm text-accent hover:border-accent/60"
+                        >
+                          {link.label}
+                          <HiArrowRight className="h-4 w-4" aria-hidden="true" />
+                        </a>
+                      ))}
+                    </div>
+                  ) : null}
+                </article>
+              ))}
+            </div>
+          </div>
+        ) : null}
+      </div>
+    </section>
+  )
+}
+
+function ProjectCaseStudyDetail({
   title,
-  items,
-  dotClassName,
+  description,
 }: {
   title: string
-  items: string[]
-  dotClassName: string
+  description: string
 }) {
   return (
-    <div>
-      <p className="text-sm font-medium text-foreground">{title}</p>
-      <ul className="mt-3 space-y-3 text-sm leading-7 text-muted-foreground">
-        {items.map((item) => (
-          <li key={item} className="flex gap-3">
-            <span className={`mt-2 h-2 w-2 rounded-full ${dotClassName}`} />
-            <span>{item}</span>
-          </li>
-        ))}
-      </ul>
+    <div className="rounded-md border border-border bg-paper/40 p-4 md:p-5">
+      <dt className="text-sm font-medium text-foreground">{title}</dt>
+      <dd className="mt-2 text-sm leading-6 text-muted-foreground">{description}</dd>
     </div>
+  )
+}
+
+function NpmPackagesSection({ packages }: { packages: NpmPackageItem[] }) {
+  return (
+    <section id="packages" className="section-divider scroll-mt-24 py-14 md:py-20">
+      <div className="section-shell">
+        <SectionHeading
+          eyebrow="npm Packages"
+          title="Published tools for React Native teams."
+          description="Open-source packages built to solve practical mobile release challenges."
+        />
+
+        <div className="mt-10 divide-y divide-border border-y border-border">
+          {packages.map((packageItem) => (
+            <article
+              key={packageItem.name}
+              className="grid gap-4 py-6 md:grid-cols-[minmax(220px,0.85fr)_minmax(0,2.15fr)] md:items-center md:gap-12"
+            >
+              <div className="flex items-center gap-3">
+                <SiNpm className="h-7 w-10 shrink-0 text-accent" aria-hidden="true" />
+                <h3 className="font-mono text-lg font-semibold text-foreground">{packageItem.name}</h3>
+              </div>
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-base leading-7 text-muted-foreground">{packageItem.summary}</p>
+                {packageItem.href ? (
+                  <a
+                    href={packageItem.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="ring-focus inline-flex shrink-0 items-center gap-2 self-start border-b border-border pb-1 text-sm text-accent hover:border-accent/60 sm:self-center"
+                  >
+                    View on npm
+                    <HiArrowRight className="h-4 w-4" aria-hidden="true" />
+                  </a>
+                ) : null}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
   )
 }
 
 function AchievementsSection({ portfolio }: PortfolioTemplateProps) {
   return (
-    <section id="achievements" className="section-divider py-20 md:py-28">
+    <section id="achievements" className="section-divider py-14 md:py-20">
       <div className="section-shell">
         <SectionHeading
           eyebrow="Recognition"
-          title="Professional trust built through delivery consistency and team contribution."
-          description="The strongest external signal on this page is recognition earned in a professional environment, not a self-assigned label."
+          title={portfolio.achievement.title}
+          description={`${portfolio.achievement.organization} · ${portfolio.achievement.summary}`}
         />
-
-        <motion.div
-          className="surface-panel mt-12 overflow-hidden p-8 md:p-10"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.25 }}
-          variants={fadeInUp}
-        >
-          <div className="grid gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(320px,1.1fr)] lg:items-center">
-            <div>
-              <div className="inline-flex h-14 w-14 items-center justify-center rounded-md border border-accent/30 text-accent">
-                <HiSparkles className="h-7 w-7" />
-              </div>
-              <p className="mt-5 text-sm uppercase tracking-[0.22em] text-accent">
-                {portfolio.achievement.organization}
-              </p>
-              <h3 className="mt-3 text-3xl font-semibold text-foreground">
-                {portfolio.achievement.title}
-              </h3>
-              <p className="mt-5 max-w-xl text-base leading-8 text-muted-foreground">
-                {portfolio.achievement.summary}
-              </p>
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              {portfolio.achievement.pillars.map((pillar) => (
-                <div key={pillar.title} className="rounded-md border border-border bg-paper/40 p-5">
-                  <p className="text-lg font-semibold text-foreground">{pillar.title}</p>
-                  <p className="mt-2 text-sm leading-7 text-muted-foreground">{pillar.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </motion.div>
       </div>
     </section>
   )
@@ -719,8 +508,14 @@ function ContactSection({ portfolio }: PortfolioTemplateProps) {
   )
 
   const socialEntries = [
-    { icon: <HiLink className="h-5 w-5" />, ...portfolio.socials.linkedin },
-    { icon: <HiCodeBracket className="h-5 w-5" />, ...portfolio.socials.github },
+    { icon: <FaLinkedin className="h-5 w-5" aria-hidden="true" />, ...portfolio.socials.linkedin },
+    { icon: <FaGithub className="h-5 w-5" aria-hidden="true" />, ...portfolio.socials.github },
+    {
+      icon: <SiNpm className="h-6 w-6" />,
+      label: "npm packages",
+      href: "#packages",
+      description: "Published React Native packages",
+    },
     { icon: <HiEnvelope className="h-5 w-5" />, ...portfolio.socials.email },
   ]
 
@@ -734,52 +529,30 @@ function ContactSection({ portfolio }: PortfolioTemplateProps) {
         />
 
         <motion.div
-          className="mt-12 grid gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(340px,1.1fr)]"
+          className="mt-12 grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(340px,1.1fr)]"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.15 }}
           variants={staggerContainer}
         >
-          <motion.div variants={fadeInUp} className="surface-panel p-7 md:p-8">
-            <p className="editorial-label">Direct channels</p>
-            <div className="mt-6 space-y-4">
+          <motion.div variants={fadeInUp}>
+            <div className="divide-y divide-border border-y border-border">
               {socialEntries.map((entry) => (
                 <a
                   key={entry.label}
                   href={entry.href}
                   target={entry.href.startsWith("http") ? "_blank" : undefined}
                   rel={entry.href.startsWith("http") ? "noreferrer" : undefined}
-                  className="ring-focus flex items-start gap-4 rounded-md border border-border bg-paper/30 p-4 hover:border-accent/60"
+                  className="ring-focus flex items-center gap-4 py-5 hover:text-accent"
                 >
-                  <span className="mt-1 inline-flex h-10 w-10 items-center justify-center rounded-sm border border-accent/30 text-accent">
-                    {entry.icon}
+                  <span className="inline-flex w-7 shrink-0 items-center justify-center text-accent">{entry.icon}</span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-lg font-medium text-foreground">{entry.label}</span>
+                    <span className="mt-1 block text-sm leading-6 text-muted-foreground">{entry.description}</span>
                   </span>
-                  <span>
-                    <span className="block text-sm font-semibold text-foreground">{entry.label}</span>
-                    <span className="mt-1 block text-sm leading-7 text-muted-foreground">
-                      {entry.description}
-                    </span>
-                  </span>
+                  <HiArrowRight className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
                 </a>
               ))}
-            </div>
-
-            <div className="mt-8 rounded-md border border-border bg-paper/30 p-5 text-sm leading-7 text-muted-foreground">
-              <p className="font-medium text-foreground">Best fit conversations</p>
-              <ul className="mt-3 space-y-3">
-                <li className="flex gap-3">
-                  <span className="mt-2 h-2 w-2 rounded-full bg-accent" />
-                  <span>Senior React Native and mobile platform roles</span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="mt-2 h-2 w-2 rounded-full bg-accent" />
-                  <span>Architecture-heavy product builds and workflow design work</span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="mt-2 h-2 w-2 rounded-full bg-accent" />
-                  <span>Consulting on React Native, TypeScript, and full-stack delivery</span>
-                </li>
-              </ul>
             </div>
           </motion.div>
 
@@ -858,25 +631,51 @@ function ContactSection({ portfolio }: PortfolioTemplateProps) {
 function SiteFooter({ portfolio }: PortfolioTemplateProps) {
   return (
     <footer className="border-t border-border py-10">
-      <div className="section-shell flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+      <div className="section-shell">
         <div>
           <p className="font-display text-lg font-medium tracking-[0.16em] text-foreground">{portfolio.name}</p>
           <p className="mt-2 text-sm text-muted-foreground">
             {portfolio.role} • React Native, TypeScript, and product-minded frontend architecture.
           </p>
-        </div>
-
-        <nav className="flex flex-wrap gap-4 text-sm text-muted-foreground" aria-label="Footer">
-          {portfolio.navigation.map((item) => (
+          <nav className="mt-4 flex items-center gap-2" aria-label="Social links">
             <a
-              key={item.id}
-              href={`#${item.id}`}
-              className="ring-focus border-b border-transparent pb-1 uppercase tracking-[0.14em] hover:border-accent/50 hover:text-foreground"
+              href={portfolio.socials.linkedin.href}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="LinkedIn profile"
+              title="LinkedIn"
+              className="ring-focus inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-muted-foreground hover:text-accent"
             >
-              {item.label}
+              <FaLinkedin className="h-5 w-5 translate-x-px" aria-hidden="true" />
             </a>
-          ))}
-        </nav>
+            <a
+              href={portfolio.socials.github.href}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="GitHub profile"
+              title="GitHub"
+              className="ring-focus inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-muted-foreground hover:text-accent"
+            >
+              <FaGithub className="h-5 w-5" aria-hidden="true" />
+            </a>
+            <a
+              href={portfolio.socials.email.href}
+              aria-label="Send email"
+              title="Email"
+              className="ring-focus inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-muted-foreground hover:text-accent"
+            >
+              <HiEnvelope className="h-5 w-5" aria-hidden="true" />
+            </a>
+            <a
+              href="#packages"
+              aria-label="View npm packages"
+              title="npm packages"
+              className="ring-focus inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-muted-foreground hover:text-accent"
+            >
+              <SiNpm className="h-5 w-5" aria-hidden="true" />
+            </a>
+          </nav>
+        </div>
       </div>
     </footer>
   )

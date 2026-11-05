@@ -65,25 +65,24 @@ src/
 
 Portfolio copy and structured section content live in `src/data/portfolio.ts`.
 
-Replace these placeholder values before publishing:
+Configure public destinations in the project-root environment file:
 
-- `seo.siteUrl`
-- LinkedIn URL
-- GitHub URL
-- Contact email
+- `VITE_DOMAIN_URL` for canonical and social metadata URLs
+- `VITE_LINKEDIN_URL` and `VITE_GITHUB_URL` for profile links
+- `VITE_GITHUB_URL` is also used as the base for repository slugs in project data
+- `VITE_NPM_PACKAGE_BASE_URL` is combined with each package name in project data
+- `VITE_NPM_PACKAGES_URL` links to the public npm profile from the Hero
+- `VITE_EMAIL_URL` for contact links
+- `VITE_RESUME_URL` for the resume action
 - Resume asset in `public/arjun-n-resume.html` if you prefer a PDF or other format
 
-## EmailJS Setup
+## Environment Setup
 
-Create a `.env` file in the project root:
+Copy `.env.example` to `.env.local` in the project root and set the values for your deployment. Vite loads environment files from the project root; files inside `src/` are not loaded.
 
-```bash
-VITE_EMAILJS_SERVICE_ID=your_service_id
-VITE_EMAILJS_TEMPLATE_ID=your_template_id
-VITE_EMAILJS_PUBLIC_KEY=your_public_key
-```
+The `VITE_GITHUB_URL` value should be your GitHub profile URL, for example `https://github.com/your-username`. Repository slugs such as `react-native-ota-client` are stored with project content and appended to that base. The npm package base should be `https://www.npmjs.com/package`; package names are appended automatically. Set `VITE_NPM_PACKAGES_URL` to your public npm profile, for example `https://www.npmjs.com/~your-username`.
 
-If these are missing, the contact form falls back to a prefilled email draft.
+EmailJS variables are optional. If they are missing, the contact form falls back to a prefilled email draft. `VITE_` values are included in the client bundle, so use them for public URLs and public EmailJS configuration only.
 
 ## Development
 
@@ -105,5 +104,5 @@ npm run preview
 2. Import the project into Vercel.
 3. Use `npm run build` as the build command.
 4. Use `dist` as the output directory.
-5. Add the EmailJS environment variables in Vercel if direct form sending is required.
+5. Add the environment variables from `.env.example` in Vercel; EmailJS variables are optional if the prefilled-email fallback is sufficient.
 6. Replace placeholder links and resume content before going live.
