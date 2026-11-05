@@ -513,7 +513,7 @@ function ContactSection({ portfolio }: PortfolioTemplateProps) {
     {
       icon: <SiNpm className="h-6 w-6" />,
       label: "npm packages",
-      href: "#packages",
+      href: portfolio.npmPackagesUrl ?? "#packages",
       description: "Published React Native packages",
     },
     { icon: <HiEnvelope className="h-5 w-5" />, ...portfolio.socials.email },
@@ -667,7 +667,9 @@ function SiteFooter({ portfolio }: PortfolioTemplateProps) {
               <HiEnvelope className="h-5 w-5" aria-hidden="true" />
             </a>
             <a
-              href="#packages"
+              href={portfolio.npmPackagesUrl ?? "#packages"}
+              target={portfolio.npmPackagesUrl ? "_blank" : undefined}
+              rel={portfolio.npmPackagesUrl ? "noreferrer" : undefined}
               aria-label="View npm packages"
               title="npm packages"
               className="ring-focus inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-muted-foreground hover:text-accent"
